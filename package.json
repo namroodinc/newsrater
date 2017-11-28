@@ -1,0 +1,32 @@
+{
+  "name": "newsrater",
+  "version": "1.0.0",
+  "description": "API service to quickly crawl and retrieve data from the web",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "lint": "eslint -c .eslintrc ./",
+    "precommit": "npm run lint",
+    "test": "exit 0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/namroodinc/newsrater.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/namroodinc/newsrater/issues"
+  },
+  "homepage": "https://github.com/namroodinc/newsrater#readme",
+  "dependencies": {
+    "dotenv": "^4.0.0",
+    "express": "^4.16.2",
+    "osmosis": "^1.1.4"
+  },
+  "devDependencies": {
+    "babel-eslint": "^8.0.2",
+    "eslint": "^4.11.0",
+    "eslint-plugin-import": "^2.8.0"
+  }
+}
