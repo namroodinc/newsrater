@@ -7,7 +7,7 @@
     "start": "babel-node index.js",
     "lint": "eslint -c .eslintrc ./",
     "precommit": "npm run lint",
-    "test": "exit 0"
+    "test": "echo No tests to run"
   },
   "repository": {
     "type": "git",
@@ -31,6 +31,7 @@
     "babel-preset-env": "^1.6.1",
     "babel-preset-node6": "^11.0.0",
     "eslint": "^4.11.0",
-    "eslint-plugin-import": "^2.8.0"
+    "eslint-plugin-import": "^2.8.0",
+    "husky": "^0.14.3"
   }
 }

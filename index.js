@@ -1,7 +1,8 @@
 import express from "express";
 
 import getAlexa from "./crawlers/getAlexa";
-import { getApi, postApi } from "./utils/Index";
+import getApi from "./utils/getApi";
+import postApi from "./utils/postApi";
 
 // Environment Variables
 import { alexaRankBaseUrl, mongoDb, mongoDbApiKey, mongoDbBaseUrl } from "./config";
@@ -27,6 +28,14 @@ app.get('/api/alexa/:website*', function response(req, res) {
 
 
 // mLabs
+// list collection
+app.get('/api/list/:collection*', function response(req, res) {
+  const { collection } = req.params;
+  getApi(`${mongoDbBaseUrl}${mongoDb}/collections/${collection}?q=${JSON.stringify(req.query)}&apiKey=${mongoDbApiKey}`)
+    .then((data) => {
+      res.send(data);
+    });
+});
 // insert into collection
 app.get('/api/insert/:collection/:website*', function response(req, res) {
   const { collection, website } = req.params;
