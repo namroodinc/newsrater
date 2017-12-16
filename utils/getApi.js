@@ -1,4 +1,4 @@
-import request from 'superagent';
+import request from "superagent";
 
 export default function (api) {
   return new Promise((resolve, reject) => {

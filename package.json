@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "babel-node index.js",
+    "scheduler": "babel-node scheduler/addNewPublication.js",
     "lint": "eslint -c .eslintrc ./",
     "precommit": "npm run lint",
     "test": "echo No tests to run"
@@ -20,16 +21,16 @@
   },
   "homepage": "https://github.com/namroodinc/newsrater#readme",
   "dependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-node6": "^11.0.0",
     "dotenv": "^4.0.0",
     "express": "^4.16.2",
     "osmosis": "^1.1.4",
     "superagent": "^3.8.2"
   },
   "devDependencies": {
-    "babel-cli": "^6.26.0",
     "babel-eslint": "^8.0.2",
-    "babel-preset-env": "^1.6.1",
-    "babel-preset-node6": "^11.0.0",
     "eslint": "^4.11.0",
     "eslint-plugin-import": "^2.8.0",
     "husky": "^0.14.3"
