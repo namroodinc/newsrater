@@ -1,13 +1,13 @@
-const express = require('express');
-require('dotenv').config();
+import express from "express";
 
-const getAlexa = require('./crawlers/getAlexa');
+import getAlexa from "./crawlers/getAlexa";
+import { getApi, postApi } from "./utils/Index";
+
+// Environment Variables
+import { alexaRankBaseUrl, mongoDb, mongoDbApiKey, mongoDbBaseUrl } from "./config";
 
 const app = express();
 const router = express.Router();
-
-// Environment Variables
-const ALEXA_RANK = process.env.ALEXA_RANK;
 
 app.set('trust proxy', 1); // trust first proxy
 app.set('port', (process.env.PORT || 5000));
@@ -18,20 +18,25 @@ app.use('/', router);
 // Alexa
 app.get('/api/alexa/:website*', function response(req, res) {
   const website = req.params.website;
-
-  console.log(website);
-
-  const alexaBody = getAlexa(`${ALEXA_RANK}${website}`);
+  const alexaBody = getAlexa(`${alexaRankBaseUrl}${website}`);
   alexaBody.then((data) => {
     res.send(data);
   });
 });
 
 
+
 // mLabs
-app.get('/api/insert*', function response(req, res) {
-  const query = req.query.url;
-  console.log(query);
+// insert into collection
+app.get('/api/insert/:collection/:website*', function response(req, res) {
+  const { collection, website } = req.params;
+  const data = {
+    website
+  }
+  postApi(`${mongoDbBaseUrl}${mongoDb}/collections/${collection}?apiKey=${mongoDbApiKey}`, data)
+    .then((data) => {
+      res.send(data);
+    });
 });
 
 

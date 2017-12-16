@@ -4,7 +4,7 @@
   "description": "API service to quickly crawl and retrieve data from the web",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
+    "start": "babel-node index.js",
     "lint": "eslint -c .eslintrc ./",
     "precommit": "npm run lint",
     "test": "exit 0"
@@ -22,10 +22,14 @@
   "dependencies": {
     "dotenv": "^4.0.0",
     "express": "^4.16.2",
-    "osmosis": "^1.1.4"
+    "osmosis": "^1.1.4",
+    "superagent": "^3.8.2"
   },
   "devDependencies": {
+    "babel-cli": "^6.26.0",
     "babel-eslint": "^8.0.2",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-node6": "^11.0.0",
     "eslint": "^4.11.0",
     "eslint-plugin-import": "^2.8.0"
   }
