@@ -40,7 +40,8 @@ app.get('/api/list/:collection*', function response(req, res) {
 app.get('/api/insert/:collection/:website*', function response(req, res) {
   const { collection, website } = req.params;
   const data = {
-    website
+    website,
+    stats: []
   }
   postApi(`${mongoDbBaseUrl}${mongoDb}/collections/${collection}?apiKey=${mongoDbApiKey}`, data)
     .then((data) => {
