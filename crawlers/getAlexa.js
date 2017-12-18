@@ -1,10 +1,11 @@
-const osmosis = require('osmosis');
+import osmosis from "osmosis";
+import { alexaRankBaseUrl } from "../config";
 
 module.exports = (api) => {
   const globals = new Promise((resolve) => { // TODO: Add reject (resolve, reject) error
     let savedData = {};
     osmosis
-      .get(api)
+      .get(`${alexaRankBaseUrl}${api}`)
       .find('.globleRank .metrics-data')
       .set('globalRank')
       .find('.countryRank .metrics-data')
@@ -20,7 +21,7 @@ module.exports = (api) => {
   const getStats = new Promise((resolve) => { // TODO: Add reject (resolve, reject) error
     let savedData = [];
     osmosis
-      .get(api)
+      .get(`${alexaRankBaseUrl}${api}`)
       .find('.pybar-row')
       .set({
         title: '.pybar-label',

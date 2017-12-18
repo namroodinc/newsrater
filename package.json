@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "start": "babel-node index.js",
-    "scheduler-updatePublications": "babel-node scheduler/updatePublications.js",
+    "getAlexa": "babel-node scheduler/updatePublications-getAlexa.js",
+    "getWikipedia": "babel-node scheduler/updatePublications-getWikipedia.js",
+    "scheduler": "npm-run-all --parallel getAlexa",
     "lint": "eslint -c .eslintrc ./",
     "precommit": "npm run lint",
     "test": "echo No tests to run"
@@ -24,8 +26,11 @@
     "babel-cli": "^6.26.0",
     "babel-preset-env": "^1.6.1",
     "babel-preset-node6": "^11.0.0",
+    "contentful": "^5.0.5",
+    "contentful-management": "^4.1.2",
     "dotenv": "^4.0.0",
     "express": "^4.16.2",
+    "moment": "^2.20.0",
     "osmosis": "^1.1.4",
     "superagent": "^3.8.2"
   },
@@ -33,6 +38,7 @@
     "babel-eslint": "^8.0.2",
     "eslint": "^4.11.0",
     "eslint-plugin-import": "^2.8.0",
-    "husky": "^0.14.3"
+    "husky": "^0.14.3",
+    "npm-run-all": "^4.1.2"
   }
 }
