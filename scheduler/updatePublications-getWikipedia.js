@@ -22,11 +22,12 @@ getSpace
             const { infobox, description } = wikipediaResponse;
             infobox.map(infoboxResponse => {
               const { label, value } = infoboxResponse;
+              console.log(value);
               switch (label) {
                 case 'Owner(s)':
                 case 'Owned by':
                 case 'Owner':
-                  entry.fields.ownership['en-US'] = getWikipediaSanitize(value);
+                  // entry.fields.ownership['en-US'] = getWikipediaSanitize(value);
                   break;
                 default:
               }

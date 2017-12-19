@@ -6,6 +6,7 @@
   "scripts": {
     "start": "babel-node index.js",
     "getAlexa": "babel-node scheduler/updatePublications-getAlexa.js",
+    "getNews": "babel-node scheduler/updatePublications-getNews.js",
     "getWikipedia": "babel-node scheduler/updatePublications-getWikipedia.js",
     "scheduler": "npm-run-all --parallel getAlexa",
     "lint": "eslint -c .eslintrc ./",
@@ -32,6 +33,7 @@
     "express": "^4.16.2",
     "moment": "^2.20.0",
     "osmosis": "^1.1.4",
+    "sentiment": "^4.1.0",
     "superagent": "^3.8.2"
   },
   "devDependencies": {
