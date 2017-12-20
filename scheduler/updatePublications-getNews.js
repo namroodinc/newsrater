@@ -21,20 +21,23 @@ getSpace
             .then((entry) => {
               results.articles.map(article => {
                 const { author, description, publishedAt, title } = article;
-                entry.fields.articles['en-US'].push({
-                  author,
-                  description,
-                  publishedAt,
-                  title,
-                  sentimentScore: {
-                    description: sentiment(description),
-                    title: sentiment(title)
-                  }
-                });
+                const articleFindIndex = entry.fields.articles['en-US'].findIndex(article => article.title === title);
+                if (articleFindIndex < 0) {
+                  entry.fields.articles['en-US'].push({
+                    author,
+                    description,
+                    publishedAt,
+                    title,
+                    sentimentScore: {
+                      description: sentiment(description),
+                      title: sentiment(title)
+                    }
+                  });
+                }
               });
               return entry.update();
             })
-            .then((entry) => console.log(`* ${entry.fields.name['en-US']} Site Rankings updated.`))
+            .then((entry) => console.log(`* ${entry.fields.name['en-US']} Top Headlines for today updated.`))
             .catch(console.error)
         })
     });
