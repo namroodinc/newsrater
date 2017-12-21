@@ -6,6 +6,7 @@ const client = contentful.createClient({
   accessToken: cfCmaToken
 });
 const getSpace = client.getSpace(cfSpaceId);
+const typeOfUpdate = 'Site Rankings';
 
 getSpace
   .then((space) => space.getEntries({
@@ -26,8 +27,9 @@ getSpace
               });
               return entry.update();
             })
-            .then((entry) => console.log(`* ${entry.fields.name['en-US']} Site Rankings updated.`))
-            .catch(console.error)
+            .then((entry) => entry.publish())
+            .then((entry) => console.log(`** ${entry.fields.name['en-US']} ${typeOfUpdate} updated&published.`))
+            .catch(console.error);
         });
     });
   })

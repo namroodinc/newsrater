@@ -1,6 +1,6 @@
-import asciify from "asciify";
+var asciify = require("asciify");
 
-const style = {
+var style = {
   color: 'yellow',
   font: 'alligator2'
 };

@@ -6,6 +6,7 @@ const client = contentful.createClient({
   accessToken: cfCmaToken
 });
 const getSpace = client.getSpace(cfSpaceId);
+const typeOfUpdate = 'Top Headlines for today';
 
 getSpace
   .then((space) => space.getEntries({
@@ -37,9 +38,10 @@ getSpace
               });
               return entry.update();
             })
-            .then((entry) => console.log(`* ${entry.fields.name['en-US']} Top Headlines for today updated.`))
-            .catch(console.error)
-        })
+            .then((entry) => entry.publish())
+            .then((entry) => console.log(`** ${entry.fields.name['en-US']} ${typeOfUpdate} updated&published.`))
+            .catch(console.error);
+        });
     });
   })
   .catch(console.error);

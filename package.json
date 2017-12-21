@@ -8,8 +8,8 @@
     "getAlexa": "babel-node scheduler/updatePublications-getAlexa.js",
     "getNews": "babel-node scheduler/updatePublications-getNews.js",
     "getWikipedia": "babel-node scheduler/updatePublications-getWikipedia.js",
-    "welcome": "babel-node welcome.js",
-    "scheduler": "npm-run-all --parallel welcome getAlexa getNews",
+    "welcome": "node welcome.js",
+    "scheduler": "npm-run-all --sequential welcome getAlexa getNews",
     "lint": "eslint -c .eslintrc ./",
     "precommit": "npm run lint",
     "test": "echo No tests to run"
