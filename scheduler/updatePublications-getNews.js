@@ -8,6 +8,17 @@ const client = contentful.createClient({
 const getSpace = client.getSpace(cfSpaceId);
 const typeOfUpdate = 'Top Headlines for today';
 
+const sentimentResponse = (text) => {
+  const { score, comparative, words, positive, negative } = sentiment(text);
+  return {
+    score,
+    comparative,
+    words,
+    positive,
+    negative
+  }
+}
+
 getSpace
   .then((space) => space.getEntries({
     content_type: 'publication'
@@ -30,8 +41,8 @@ getSpace
                     publishedAt,
                     title,
                     sentimentScore: {
-                      description: sentiment(description),
-                      title: sentiment(title)
+                      description: sentimentResponse(description),
+                      title: sentimentResponse(title)
                     }
                   });
                 }
