@@ -45,8 +45,8 @@ module.exports = (api) => {
 
   return Promise.all([globals, getStats]).then((values) => {
     return {
-      rank: values[0],
-      stats: values[1]
+      rankings: values[0],
+      demographics: values[1]
     };
   });
 }

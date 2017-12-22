@@ -21,10 +21,12 @@ getSpace
           getSpace
             .then((space) => space.getEntry(data.sys.id))
             .then((entry) => {
+              const { rankings, demographics } = alexaResponse;
               entry.fields.siteRankings['en-US'].push({
                 timestamp: Date.now(),
-                data: alexaResponse
+                data: rankings
               });
+              entry.fields.demographics['en-US'] = demographics;
               return entry.update();
             })
             .then((entry) => entry.publish())
