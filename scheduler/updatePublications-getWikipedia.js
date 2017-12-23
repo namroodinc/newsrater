@@ -38,7 +38,7 @@ getSpace
               return entry.update();
             })
             .then((entry) => entry.publish())
-            .then((entry) => console.log(`** ${entry.fields.name['en-US']} ${typeOfUpdate} updated&published.`))
+            .then((entry) => console.log(`** ${entry.fields.name['en-US']} ${typeOfUpdate} updated & published.`))
             .catch(console.error);
         });
     });

@@ -5,11 +5,13 @@
   "main": "index.js",
   "scripts": {
     "start": "babel-node index.js",
-    "getAlexa": "babel-node scheduler/updatePublications-getAlexa.js",
     "getNews": "babel-node scheduler/updatePublications-getNews.js",
+    "calculateOverallRating": "babel-node scheduler/updatePublications-calculateOverallRating.js",
+    "getNews-calculateOverallRating": "npm-run-all --sequential getNews calculateOverallRating",
+    "getAlexa": "babel-node scheduler/updatePublications-getAlexa.js",
     "getWikipedia": "babel-node scheduler/updatePublications-getWikipedia.js",
     "welcome": "node welcome.js",
-    "scheduler": "npm-run-all --sequential welcome getAlexa getNews",
+    "scheduler": "npm-run-all --sequential welcome getAlexa getNews-calculateOverallRating",
     "lint": "eslint -c .eslintrc ./",
     "precommit": "npm run lint",
     "test": "echo No tests to run"
