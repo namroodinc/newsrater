@@ -34,7 +34,6 @@ getSpace
               articleSentimentAnalysis
             }
           });
-          console.log();
           return entry.update();
         })
         .then((entry) => entry.publish())
