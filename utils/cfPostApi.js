@@ -2,7 +2,7 @@ import request from "superagent";
 import { cfBaseUrl, cfSpaceId, cfCmaToken } from "../config";
 
 export default function (entryId, revision, data) {
-  const api = `${cfBaseUrl}/spaces/${cfSpaceId}/entries/${entryId}`
+  const api = `${cfBaseUrl}/spaces/${cfSpaceId}/entries/${entryId}`;
   return new Promise((resolve, reject) => {
     request('PUT', api)
       .set('Authorization', `Bearer ${cfCmaToken}`)
