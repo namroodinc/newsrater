@@ -32,6 +32,8 @@ getSpace
               total
             }
           });
+
+          entry.fields.simpleRating['en-US'] = parseInt(total);
           return entry.update();
         })
         .then((entry) => entry.publish())

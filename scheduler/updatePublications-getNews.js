@@ -41,7 +41,9 @@ getSpace
                     publishedAt,
                     title,
                     sentimentScore: {
-                      description: sentimentResponse(description),
+                      description: description !== null ? sentimentResponse(description) : {
+                        score: 0
+                      },
                       title: sentimentResponse(title)
                     }
                   });
