@@ -12,6 +12,9 @@ const cfCmaToken = process.env.CF_CMA_TOKEN;
 const newsApi = process.env.NEWS_API;
 const newsApiKey = process.env.NEWS_API_KEY;
 const wikipediaSearch = process.env.WIKIPEDIA_SEARCH;
+const calcEducation = process.env.CALC_EDUCATION;
+const extremeNegative = process.env.EXTREME_NEGATIVE;
+const extremePositive = process.env.EXTREME_POSITIVE;
 
 export {
   alexaRankBaseUrl,
@@ -25,5 +28,8 @@ export {
   cfCmaToken,
   newsApi,
   newsApiKey,
-  wikipediaSearch
+  wikipediaSearch,
+  calcEducation,
+  extremeNegative,
+  extremePositive
 };

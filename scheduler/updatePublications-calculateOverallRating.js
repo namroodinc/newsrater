@@ -1,14 +1,13 @@
 import * as contentful from "contentful-management";
+import articleCalculation from "../utils/calculations/articles";
+import educationCalculation from "../utils/calculations/education";
+import equalityCalculation from "../utils/calculations/equality";
 import { cfSpaceId, cfCmaToken } from "../config";
 const client = contentful.createClient({
   accessToken: cfCmaToken
 });
 const getSpace = client.getSpace(cfSpaceId);
 const typeOfUpdate = 'calculating Overall Rating';
-
-const getSum = (total, num) => {
-  return total + num;
-}
 
 getSpace
   .then((space) => space.getEntries({
@@ -19,19 +18,18 @@ getSpace
       getSpace
         .then((space) => space.getEntry(data.sys.id))
         .then((entry) => {
-          const articles = entry.fields.articles['en-US'];
-          const mappedArticles = articles.map((article) => {
-            const { title, description } = article.sentimentScore;
-            const titleScore = title.score;
-            const descriptionScore = description.score;
-            return ((titleScore + descriptionScore) / 2);
-          });
-          const reduceArticles = mappedArticles.reduce(getSum);
-          const articleSentimentAnalysis = (reduceArticles / articles.length);
+          const articles = articleCalculation(entry.fields.articles['en-US']);
+          const education = educationCalculation(entry.fields.demographics['en-US']);
+          const equality = equalityCalculation(entry.fields.demographics['en-US']);
+          const total = (articles + education) / 2;
+
           entry.fields.overallRating['en-US'].push({
             timestamp: Date.now(),
             ratings: {
-              articleSentimentAnalysis
+              articles,
+              education,
+              equality,
+              total
             }
           });
           return entry.update();
