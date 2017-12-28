@@ -15,6 +15,7 @@ const wikipediaSearch = process.env.WIKIPEDIA_SEARCH;
 const calcEducation = process.env.CALC_EDUCATION;
 const extremeNegative = process.env.EXTREME_NEGATIVE;
 const extremePositive = process.env.EXTREME_POSITIVE;
+const googleNews = process.env.GOOGLE_NEWS;
 
 export {
   alexaRankBaseUrl,
@@ -31,5 +32,6 @@ export {
   wikipediaSearch,
   calcEducation,
   extremeNegative,
-  extremePositive
+  extremePositive,
+  googleNews
 };
