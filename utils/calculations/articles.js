@@ -8,10 +8,8 @@ export default function (fieldsArticles) {
   const articles = fieldsArticles;
 
   const mappedArticles = articles.map((article) => {
-    const { title, description } = article.sentimentScore;
-    const titleScore = title.score;
-    const descriptionScore = description.score;
-    return ((titleScore + descriptionScore) / 2);
+    const { title } = article.sentimentScore;
+    return ((title.score) / 2);
   });
 
   const scorePositive = mappedArticles.filter(num => num >= 0 && num < extremePositive);

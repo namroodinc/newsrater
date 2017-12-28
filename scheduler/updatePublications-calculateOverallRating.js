@@ -1,12 +1,14 @@
 import * as contentful from "contentful-management";
-import articleCalculation from "../utils/calculations/articles";
-import educationCalculation from "../utils/calculations/education";
-import equalityCalculation from "../utils/calculations/equality";
-import { cfSpaceId, cfCmaToken } from "../config";
+
 const client = contentful.createClient({
   accessToken: cfCmaToken
 });
 const getSpace = client.getSpace(cfSpaceId);
+
+import articleCalculation from "../utils/calculations/articles";
+import educationCalculation from "../utils/calculations/education";
+import equalityCalculation from "../utils/calculations/equality";
+import { cfSpaceId, cfCmaToken } from "../config";
 const typeOfUpdate = 'calculating Overall Rating';
 
 getSpace
