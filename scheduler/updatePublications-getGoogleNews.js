@@ -9,11 +9,12 @@ const client = contentful.createClient({
 });
 const getSpace = client.getSpace(cfSpaceId);
 
+import sentimentTags from "../utils/sentiment/tags";
 import { cfSpaceId, cfCmaToken, googleNews } from "../config";
 const typeOfUpdate = 'Latest Google News Headlines';
 
 const sentimentResponse = (text) => {
-  const { score, positive, negative } = sentiment(text);
+  const { score, positive, negative } = sentiment(text, sentimentTags);
   return {
     score,
     positive,
@@ -51,7 +52,7 @@ getSpace
 
                   results.map(article => {
                     const { pubDate, title, link } = article;
-                    const articleFindIndex = entry.fields.articles['en-US'].findIndex(article => article.title === title);
+                    const articleFindIndex = entry.fields.articles['en-US'].findIndex(article => article.title === title[0]);
                     if (articleFindIndex < 0) {
                       entry.fields.articles['en-US'].push({
                         publishedAt: pubDate[0],

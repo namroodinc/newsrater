@@ -7,11 +7,12 @@ const client = contentful.createClient({
 const getSpace = client.getSpace(cfSpaceId);
 
 import getApi from "../utils/getApi";
+import sentimentTags from "../utils/sentiment/tags";
 import { cfSpaceId, cfCmaToken, newsApi, newsApiKey } from "../config";
 const typeOfUpdate = 'Top Headlines for today';
 
 const sentimentResponse = (text) => {
-  const { score, positive, negative } = sentiment(text);
+  const { score, positive, negative } = sentiment(text, sentimentTags);
   return {
     score,
     positive,

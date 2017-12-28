@@ -8,6 +8,7 @@ const getSpace = client.getSpace(cfSpaceId);
 import articleCalculation from "../utils/calculations/articles";
 import educationCalculation from "../utils/calculations/education";
 import equalityCalculation from "../utils/calculations/equality";
+import sfwCalculation from "../utils/calculations/sfw";
 import { cfSpaceId, cfCmaToken } from "../config";
 const typeOfUpdate = 'calculating Overall Rating';
 
@@ -23,7 +24,8 @@ getSpace
           const articles = articleCalculation(entry.fields.articles['en-US']);
           const education = educationCalculation(entry.fields.demographics['en-US']);
           const equality = equalityCalculation(entry.fields.demographics['en-US']);
-          const total = (articles + education) / 2;
+          const sfw = sfwCalculation(entry.fields.demographics['en-US']);
+          const total = (articles + education + sfw) / 3;
 
           entry.fields.overallRating['en-US'].push({
             timestamp: Date.now(),
@@ -31,6 +33,7 @@ getSpace
               articles,
               education,
               equality,
+              sfw,
               total
             }
           });
