@@ -14,8 +14,21 @@ export default function (publicationName) {
         valueLinkHref: 'th + td a@href'
       })
       .data((listings) => {
-        const { label } = listings;
-        if (label) savedData.push(listings);
+        const {
+          label,
+          value
+        } = listings;
+        if (label) {
+          const splitValue = value.split('\n');
+          if (splitValue.length > 1) {
+            savedData.push({
+              label,
+              value: splitValue
+            });
+          } else {
+            savedData.push(listings);
+          }
+        }
       })
       .done(() => resolve(savedData));
   });

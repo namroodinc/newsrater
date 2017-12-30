@@ -54,6 +54,9 @@ getSpace
                     const { pubDate, title, link } = article;
                     const articleFindIndex = entry.fields.articles['en-US'].findIndex(article => article.title === title[0]);
                     if (articleFindIndex < 0) {
+                      // console.log(title[0].match(/\b([A-Z]{2,})\b/g));
+                      // console.log(title[0].match(/\b([a-z]{2,})\b/g));
+                      // console.log('-------------------');
                       entry.fields.articles['en-US'].push({
                         publishedAt: pubDate[0],
                         title: title[0],

@@ -10,6 +10,7 @@
     "getGoogleNews": "babel-node scheduler/updatePublications-getGoogleNews.js",
     "getNews": "npm-run-all --sequential getGoogleNews getNewsApi",
     "getNewsApi": "babel-node scheduler/updatePublications-getNewsApi.js",
+    "getPCC": "babel-node scheduler/updatePublications-getPressComplaintsCommission.js",
     "getWikipedia": "babel-node scheduler/updatePublications-getWikipedia.js",
     "welcome": "node welcome.js",
     "scheduler": "npm-run-all --sequential welcome getWikipedia getAlexa getNews calculateOverallRating",
