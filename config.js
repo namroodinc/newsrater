@@ -17,6 +17,7 @@ const extremeNegative = process.env.EXTREME_NEGATIVE;
 const extremePositive = process.env.EXTREME_POSITIVE;
 const googleNews = process.env.GOOGLE_NEWS;
 const pccBaseUrl = process.env.PCC_BASE_URL;
+const ipsoBaseUrl = process.env.IPSO_BASE_URL;
 
 export {
   alexaRankBaseUrl,
@@ -35,5 +36,6 @@ export {
   extremeNegative,
   extremePositive,
   googleNews,
-  pccBaseUrl
+  pccBaseUrl,
+  ipsoBaseUrl
 };

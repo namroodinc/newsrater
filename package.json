@@ -8,6 +8,7 @@
     "calculateOverallRating": "babel-node scheduler/updatePublications-calculateOverallRating.js",
     "getAlexa": "babel-node scheduler/updatePublications-getAlexa.js",
     "getGoogleNews": "babel-node scheduler/updatePublications-getGoogleNews.js",
+    "getIPSO": "babel-node scheduler/updatePublications-getIndependentPressStandardsOrganisation.js",
     "getNews": "npm-run-all --sequential getGoogleNews getNewsApi",
     "getNewsApi": "babel-node scheduler/updatePublications-getNewsApi.js",
     "getPCC": "babel-node scheduler/updatePublications-getPressComplaintsCommission.js",

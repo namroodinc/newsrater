@@ -15,7 +15,7 @@ module.exports = (publication) => {
       .set({
         value: 'td b'
       })
-      .data((text) => savedData = cleanString(text, decision))
+      .data((text) => savedData = cleanString(text))
       .done(() => resolve(savedData));
   });
 

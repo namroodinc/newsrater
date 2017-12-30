@@ -1,11 +1,11 @@
 import * as contentful from "contentful-management";
-import getPressComplaintsCommission from "../crawlers/getPressComplaintsCommission";
+import getIndependentPressStandardsOrganisation from "../crawlers/getIndependentPressStandardsOrganisation";
 import { cfSpaceId, cfCmaToken } from "../config";
 const client = contentful.createClient({
   accessToken: cfCmaToken
 });
 const getSpace = client.getSpace(cfSpaceId);
-const typeOfUpdate = 'Press Complaints Commission';
+const typeOfUpdate = 'Independent Press Standards Organisation';
 
 getSpace
   .then((space) => space.getEntries({
@@ -13,17 +13,16 @@ getSpace
   }))
   .then((response) => {
     response.items.map(data => {
-      if (data.fields.checkPcc['en-US']) {
-        getPressComplaintsCommission(`${data.fields.name['en-US']}`)
-          .then((pccResponse) => {
+      if (data.fields.checkIpso['en-US']) {
+        getIndependentPressStandardsOrganisation(`${data.fields.ipsoIDs['en-US']}`)
+          .then((ipsoResponse) => {
             getSpace
               .then((space) => space.getEntry(data.sys.id))
               .then((entry) => {
-                entry.fields.pressComplaints['en-US'] = {
+                entry.fields.independentPressStandardsOrganisation['en-US'] = {
                   timestamp: Date.now(),
-                  data: pccResponse
+                  data: ipsoResponse
                 };
-                entry.fields.checkPcc['en-US'] = false; // As PCC was replaced in 2014 by IPSO, further checks are stopped in favour of up-to-date checks from IPSO
                 return entry.update();
               })
               .then((entry) => entry.publish())
