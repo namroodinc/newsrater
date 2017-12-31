@@ -44,6 +44,12 @@ inquirer.prompt(questions).then(answers => {
     description: {
       'en-US': 'Description required.'
     },
+    simpleRating: {
+      'en-US': 0
+    },
+    simpleRatingDifference: {
+      'en-US': 0
+    },
     overallRating: {
       'en-US': []
     },
