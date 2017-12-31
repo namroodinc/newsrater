@@ -71,6 +71,8 @@ inquirer.prompt(questions).then(answers => {
     independentPressStandardsOrganisation: {
       'en-US': {}
     }
+    // add simple rating
+    // add simple rating difference
   };
 
   getWikipedia(`${name} ${disambiguation}`)

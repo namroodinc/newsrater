@@ -23,10 +23,13 @@ getSpace
   }))
   .then((response) => {
 
-    const calculateComplaintsAvg = response.items.map(data => {
-      const overallRating = data.fields.overallRating['en-US'];
-      return overallRating[overallRating.length - 1].ratings.complaints;
-    }).filter(data => data !== null);
+    const calculateComplaintsAvg = response.items
+      .filter(data => data.fields.overallRating['en-US'].length > 0)
+      .map(data => {
+        const overallRating = data.fields.overallRating['en-US'];
+        return overallRating[overallRating.length - 1].ratings.complaints;
+      })
+      .filter(data => data !== null);
 
     const complaintsAvg = (calculateComplaintsAvg.reduce(getSum) / calculateComplaintsAvg.length);
 
