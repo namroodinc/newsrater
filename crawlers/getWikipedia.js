@@ -2,6 +2,7 @@ import osmosis from "osmosis";
 import { wikipediaSearch } from "../config";
 
 export default function (publicationName) {
+  console.log(`${wikipediaSearch}?search=${publicationName}`);
   const globals = new Promise((resolve) => { // TODO: Add reject (resolve, reject) error
     let savedData = [];
     osmosis
