@@ -9,5 +9,9 @@ export default function (data) {
   const equalityMap = equality.map(level => data.find(educationLevel => educationLevel.title === level));
   equalityMap.sort((a, b) => b.rating - a.rating);
 
-  return 100 - ((parseInt(equalityMap[0].rating) - parseInt(equalityMap[equalityMap.length - 1].rating)) * 2);
+  const firstRating = parseInt(equalityMap[0].rating);
+  const lastRating = parseInt(equalityMap[equalityMap.length - 1].rating);
+  const ratingTotal = firstRating + lastRating;
+
+  return 100 - ((firstRating * 100 / ratingTotal) - (lastRating * 100 / ratingTotal)) * 2;
 }
