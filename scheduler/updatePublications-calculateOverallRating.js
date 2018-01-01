@@ -31,7 +31,7 @@ getSpace
       })
       .filter(data => data !== null);
 
-    const complaintsAvg = (calculateComplaintsAvg.reduce(getSum) / calculateComplaintsAvg.length);
+    const complaintsAvg = (calculateComplaintsAvg.length > 0) ? (calculateComplaintsAvg.reduce(getSum) / calculateComplaintsAvg.length) : 35;
 
     response.items.map(data => {
       getSpace

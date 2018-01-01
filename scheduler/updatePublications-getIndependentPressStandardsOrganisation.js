@@ -14,7 +14,10 @@ getSpace
   .then((response) => {
     response.items.map(data => {
       if (data.fields.checkIpso['en-US']) {
-        getIndependentPressStandardsOrganisation(`${data.fields.ipsoIDs['en-US']}`)
+        const publications = data.fields.ipsoList['en-US'];
+        const idList = publications.map(item => item.id).join();
+
+        getIndependentPressStandardsOrganisation(`${idList}`)
           .then((ipsoResponse) => {
             getSpace
               .then((space) => space.getEntry(data.sys.id))

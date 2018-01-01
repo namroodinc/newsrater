@@ -32,17 +32,13 @@ export default function (wikipediaResponse) {
           'en-US': getWikipediaSanitize(value)
         }
         break;
-      case 'Country':
-        updatedFields.country = {
-          'en-US': getWikipediaSanitize(value)
-        }
-        break;
       case 'OCLC number':
         updatedFields.oclcNumber = {
           'en-US': getWikipediaSanitize(value)
         }
         break;
       case 'Headquarters':
+
         if (Array.isArray(value)) {
           let address = '';
           value.map((line, i) => i === 0 ? address += line : address += `, ${line}`);
@@ -54,6 +50,7 @@ export default function (wikipediaResponse) {
             'en-US': getWikipediaSanitize(value)
           }
         }
+
         break;
       case 'Circulation':
         updatedFields.circulation = {
@@ -92,6 +89,7 @@ export default function (wikipediaResponse) {
       case 'Area served':
       case 'CEO':
       case 'Commercial':
+      case 'Country':
       case 'Created by':
       case 'Current status':
       case 'Editor':

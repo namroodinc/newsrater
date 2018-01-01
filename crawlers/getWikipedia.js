@@ -18,13 +18,15 @@ export default function (publicationName) {
           label,
           value
         } = listings;
-        if (label) {
+        if (label && value !== undefined) {
           const splitValue = value.split('\n');
           if (splitValue.length > 1) {
-            savedData.push({
-              label,
-              value: splitValue
-            });
+            if (splitValue !== '') {
+              savedData.push({
+                label,
+                value: splitValue
+              });
+            }
           } else {
             savedData.push(listings);
           }
