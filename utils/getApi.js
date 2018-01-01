@@ -5,7 +5,6 @@ export default function (api) {
     request
       .get(api)
       .end(function(err, res){
-        console.log(res);
         if (err || !res.ok) {
           reject(res.toError());
         } else {

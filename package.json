@@ -47,6 +47,7 @@
     "parse-domain": "^2.0.0",
     "sentiment": "^4.1.0",
     "superagent": "^3.8.2",
+    "twitter": "^1.7.1",
     "xml2js": "^0.4.19"
   },
   "devDependencies": {

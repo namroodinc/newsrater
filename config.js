@@ -18,6 +18,10 @@ const extremePositive = process.env.EXTREME_POSITIVE;
 const googleNews = process.env.GOOGLE_NEWS;
 const pccBaseUrl = process.env.PCC_BASE_URL;
 const ipsoBaseUrl = process.env.IPSO_BASE_URL;
+const twitterConsumerKey = process.env.TWITTER_CONSUMER_KEY;
+const twitterConsumerSecret = process.env.TWITTER_CONSUMER_SECRET;
+const twitterAccessToken = process.env.TWITTER_ACCESS_TOKEN;
+const twitterAccessTokenSecret = process.env.TWITTER_ACCESS_TOKEN_SECRET;
 
 export {
   alexaRankBaseUrl,
@@ -37,5 +41,9 @@ export {
   extremePositive,
   googleNews,
   pccBaseUrl,
-  ipsoBaseUrl
+  ipsoBaseUrl,
+  twitterConsumerKey,
+  twitterConsumerSecret,
+  twitterAccessToken,
+  twitterAccessTokenSecret
 };
