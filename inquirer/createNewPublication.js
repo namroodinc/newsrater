@@ -166,8 +166,9 @@ inquirer.prompt(questions).then(answers => {
     }
   };
 
-  getWikipedia(`${name} ${disambiguation}`)
+  getWikipedia(name, disambiguation)
     .then((wikipediaResponse) => {
+
       const updatedFields = getWikipediaResponse(wikipediaResponse);
 
       getTwitter(`${name}`)

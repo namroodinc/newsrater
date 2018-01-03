@@ -1,11 +1,11 @@
 import osmosis from "osmosis";
 import { wikipediaSearch } from "../config";
 
-export default function (publicationName) {
+export default function (publicationName, publicationDisambiguation) {
   const globals = new Promise((resolve) => { // TODO: Add reject (resolve, reject) error
     let savedData = [];
     osmosis
-      .get(`${wikipediaSearch}?search=${publicationName}`)
+      .get(`${wikipediaSearch}?search=${publicationName} (${publicationDisambiguation})`)
       .find('.infobox tr')
       .set({
         label: 'th',
@@ -52,7 +52,7 @@ export default function (publicationName) {
   const description = new Promise((resolve) => { // TODO: Add reject (resolve, reject) error
     let wikipediaDescription = "";
     osmosis
-      .get(`${wikipediaSearch}?search=${publicationName}`)
+      .get(`${wikipediaSearch}?search=${publicationName} (${publicationDisambiguation})`)
       .find('.infobox + p')
       .set('description')
       .data((description) => {
