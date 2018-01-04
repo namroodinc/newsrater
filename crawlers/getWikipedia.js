@@ -2,10 +2,13 @@ import osmosis from "osmosis";
 import { wikipediaSearch } from "../config";
 
 export default function (publicationName, publicationDisambiguation) {
+  let apiUrl = `${wikipediaSearch}?search=${publicationName}`;
+  if (publicationDisambiguation !== '') apiUrl += ` (${publicationDisambiguation})`;
+  
   const globals = new Promise((resolve) => { // TODO: Add reject (resolve, reject) error
     let savedData = [];
     osmosis
-      .get(`${wikipediaSearch}?search=${publicationName} (${publicationDisambiguation})`)
+      .get(apiUrl)
       .find('.infobox tr')
       .set({
         label: 'th',
@@ -52,7 +55,7 @@ export default function (publicationName, publicationDisambiguation) {
   const description = new Promise((resolve) => { // TODO: Add reject (resolve, reject) error
     let wikipediaDescription = "";
     osmosis
-      .get(`${wikipediaSearch}?search=${publicationName} (${publicationDisambiguation})`)
+      .get(apiUrl)
       .find('.infobox + p')
       .set('description')
       .data((description) => {

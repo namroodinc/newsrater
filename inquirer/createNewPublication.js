@@ -77,6 +77,11 @@ const questions = [
     message: "Website"
   },
   {
+    type: 'input',
+    name: 'newsApiId',
+    message: "News API ID"
+  },
+  {
     type: 'list',
     name: 'pcc',
     message: "PCC",
@@ -107,7 +112,7 @@ const questions = [
 ];
 
 inquirer.prompt(questions).then(answers => {
-  const { name, disambiguation, website, pcc, ipso } = answers;
+  const { name, disambiguation, website, newsApiId, pcc, ipso } = answers;
 
   const inputFields = {
     name: {
@@ -121,6 +126,9 @@ inquirer.prompt(questions).then(answers => {
     },
     description: {
       'en-US': 'Description required.'
+    },
+    newsApiId: {
+      'en-US': newsApiId
     },
     simpleRating: {
       'en-US': 0
