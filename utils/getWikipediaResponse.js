@@ -75,10 +75,10 @@ export default function (wikipediaResponse) {
       case 'Format':
       case 'Type':
       case 'Type of site':
-        formatValue('founded', value, 'format');
+        formatValue('', value, 'format');
         break;
       case 'Political alignment':
-        formatValue('founded', value, 'politicalAlignment');
+        formatValue('', value, 'politicalAlignment');
         break;
       case 'Alexa rank':
       case 'Area served':
@@ -88,10 +88,13 @@ export default function (wikipediaResponse) {
       case 'Created by':
       case 'Current status':
       case 'Editor':
+      case 'Founder':
+      case 'Founder(s)':
       case 'Industry':
       case 'Key people':
       case 'Registration':
       case 'Services':
+      case 'Sister newspapers':
       case 'Website':
         // To be ignored
         break;
