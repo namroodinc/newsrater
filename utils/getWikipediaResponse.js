@@ -9,7 +9,7 @@ export default function (wikipediaResponse) {
 
   const { infobox, description } = wikipediaResponse;
 
-  const formatValue = (field, value, pushTo) => {
+  const formatValue = ({ field, value, pushTo, arrayLimit }) => {
 
     if (pushTo !== undefined) {
       if (Array.isArray(value)) {
@@ -22,7 +22,9 @@ export default function (wikipediaResponse) {
     } else {
       if (Array.isArray(value)) {
         let newValue = '';
-        value.map((val, i) => i === 0 ? newValue += val : newValue += `, ${val}`);
+        let oldValue = value;
+        if (arrayLimit !== undefined) oldValue = value.slice(0, arrayLimit);
+        oldValue.map((val, i) => i === 0 ? newValue += val : newValue += `, ${val}`);
         updatedFields[field] = {
           'en-US': getWikipediaSanitize(newValue)
         }
@@ -41,44 +43,44 @@ export default function (wikipediaResponse) {
       case 'Owner(s)':
       case 'Owned by':
       case 'Owner':
-        formatValue('ownership', value);
+        formatValue({ field: 'ownership', value });
         break;
       case 'Available in':
       case 'Language':
-        formatValue('language', value);
+        formatValue({ field: 'language', value });
         break;
       case 'Number of employees':
-        formatValue('numberOfEmployees', value);
+        formatValue({ field: 'numberOfEmployees', value });
         break;
       case 'ISSN':
-        formatValue('issn', value);
+        formatValue({ field: 'issn', value });
         break;
       case 'OCLC number':
-        formatValue('oclcNumber', value);
+        formatValue({ field: 'oclcNumber', value });
         break;
       case 'Headquarters':
-        formatValue('headquarters', value);
+        formatValue({ field: 'headquarters', value, arrayLimit: 1 });
         break;
       case 'Circulation':
-        formatValue('circulation', value);
+        formatValue({ field: 'circulation', value });
         break;
       case 'Readership':
-        formatValue('readership', value);
+        formatValue({ field: 'readership', value });
         break;
       case 'Publisher':
-        formatValue('publisher', value);
+        formatValue({ field: 'publisher', value });
         break;
       case 'Launched':
       case 'Founded':
-        formatValue('founded', value);
+        formatValue({ field: 'founded', value });
         break;
       case 'Format':
       case 'Type':
       case 'Type of site':
-        formatValue('', value, 'format');
+        formatValue({ value, pushTo: 'format' });
         break;
       case 'Political alignment':
-        formatValue('', value, 'politicalAlignment');
+        formatValue({ value, pushTo: 'politicalAlignment' });
         break;
       case 'Alexa rank':
       case 'Area served':
