@@ -11,12 +11,23 @@ import sentimentTags from "../utils/sentiment/tags";
 import { cfSpaceId, cfCmaToken, newsApi, newsApiKey } from "../config";
 const typeOfUpdate = 'Top Headlines for today';
 
-const sentimentResponse = (text) => {
+const getSum = (total, num) => {
+  return total + num;
+}
+
+const sentimentResponse = (text, allCaps) => {
+  const scoreCaps = allCaps.length > 0 ? allCaps.map(caps => caps.length * 0.5).reduce(getSum) : 0;
+
   const { score, positive, negative } = sentiment(text, sentimentTags);
   return {
-    score,
+    score: {
+      score: (score + -scoreCaps),
+      scoreCaps: -scoreCaps,
+      scoreSentiment: score
+    },
     positive,
-    negative
+    negative,
+    allCaps
   }
 }
 
@@ -38,12 +49,15 @@ getSpace
                   const { publishedAt, title, url } = article;
                   const articleFindIndex = entry.fields.articles['en-US'].findIndex(article => article.title === title);
                   if (articleFindIndex < 0) {
+                    const allCaps = title.match(/\b([A-Z]{2,})\b/g);
+                    let allCapsArray = allCaps ? allCaps.filter(caps => ((0.5 * caps.length) > 1.5)) : [];
+
                     entry.fields.articles['en-US'].push({
                       publishedAt,
                       title,
                       url,
                       sentimentScore: {
-                        title: sentimentResponse(title)
+                        title: sentimentResponse(title, allCapsArray)
                       }
                     });
                   }

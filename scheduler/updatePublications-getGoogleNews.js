@@ -13,12 +13,23 @@ import sentimentTags from "../utils/sentiment/tags";
 import { cfSpaceId, cfCmaToken, googleNews } from "../config";
 const typeOfUpdate = 'Latest Google News Headlines';
 
-const sentimentResponse = (text) => {
+const getSum = (total, num) => {
+  return total + num;
+}
+
+const sentimentResponse = (text, allCaps) => {
+  const scoreCaps = allCaps.length > 0 ? allCaps.map(caps => caps.length * 0.5).reduce(getSum) : 0;
+
   const { score, positive, negative } = sentiment(text, sentimentTags);
   return {
-    score,
+    score: {
+      score: (score + -scoreCaps),
+      scoreCaps: -scoreCaps,
+      scoreSentiment: score
+    },
     positive,
-    negative
+    negative,
+    allCaps
   }
 }
 
@@ -54,15 +65,15 @@ getSpace
                     const { pubDate, title, link } = article;
                     const articleFindIndex = entry.fields.articles['en-US'].findIndex(article => article.title === title[0]);
                     if (articleFindIndex < 0) {
-                      // console.log(title[0].match(/\b([A-Z]{2,})\b/g));
-                      // console.log(title[0].match(/\b([a-z]{2,})\b/g));
-                      // console.log('-------------------');
+                      const allCaps = title[0].match(/\b([A-Z]{2,})\b/g);
+                      let allCapsArray = allCaps ? allCaps.filter(caps => ((0.5 * caps.length) > 1.5)) : [];
+
                       entry.fields.articles['en-US'].push({
                         publishedAt: pubDate[0],
                         title: title[0],
                         url: link[0],
                         sentimentScore: {
-                          title: sentimentResponse(title[0])
+                          title: sentimentResponse(title[0], allCapsArray)
                         }
                       });
                     }

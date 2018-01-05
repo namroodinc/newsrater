@@ -8,10 +8,14 @@ module.exports = (api) => {
       .get(`${alexaRankBaseUrl}${api}`)
       .find('.globleRank .metrics-data')
       .set('globalRank')
-      .find('.countryRank .metrics-data')
-      .set('countryRank')
+      // .find('.countryRank .metrics-data')
+      // .set('countryRank')
       .data((globals) => {
-        savedData = globals;
+        const { globalRank } = globals;
+        const globalRankInt = parseInt(globalRank);
+        savedData = {
+          globalRank: globalRankInt
+        };
       })
       .done(() => {
         resolve(savedData);
