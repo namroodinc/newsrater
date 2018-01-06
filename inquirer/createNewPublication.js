@@ -52,8 +52,15 @@ const createIpso = (name, website, fields) => {
 }
 
 const createDraft = (fields) => {
+  const { name, disambiguation } = fields;
+  let generateId = name['en-US'];
+  if (disambiguation['en-US'] !== '') {
+    generateId += ` ${disambiguation['en-us']}`
+  }
+  const convertToId = generateId.toLowerCase().replace(/ /g, '-');
+  console.log(convertToId);
   getSpace
-    .then((space) => space.createEntryWithId('publication', Date.now(), {
+    .then((space) => space.createEntryWithId('publication', convertToId, {
       fields
     }))
     .then((entry) => console.log(`** ${entry.fields.name['en-US']} created as draft (with address).`))
