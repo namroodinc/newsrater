@@ -1,3 +1,4 @@
+import inquirer from "inquirer";
 import read from "read-file";
 import { csvParseRows } from "d3";
 
@@ -6,21 +7,31 @@ import stepTwo from "../inquirer/createNewPublication-stepTwo";
 read("./list.csv", (err, buffer) => {
   const parsedRows = csvParseRows(buffer.toString('utf8'));
 
-  function delay() {
-    return new Promise(resolve => setTimeout(resolve, 300));
-  }
+  const publications = parsedRows;
+  let publicationsCopy = publications.slice(0);
 
-  async function delayedLog(data) {
-    await delay();
-    stepTwo(data[0], data[1], data[2], data[3], data[4], data[5]);
-  }
-
-  async function processArray(parsedRows) {
-    parsedRows.forEach(async (data) => {
-      await delayedLog(data);
+  function copyFilesAndRunAnalysis(publication) {
+    return new Promise(function(resolve, reject) {
+      stepTwo(publication[0], publication[1], publication[2], publication[3], publication[4], publication[5], publication[6])
+        .then(answers => {
+          resolve(publication); // control should return to generator here
+        });
     });
-    console.log("Done!");
   }
 
-  processArray(parsedRows);
+  function* doPublication(publications) {
+    yield copyFilesAndRunAnalysis(publications);
+  }
+
+  // BEGIN HERE
+  console.log("Start.");
+
+  const publicationBatch = doPublication(publicationsCopy.shift());
+  publicationBatch.next().value.then(function re(data) {
+    return publicationsCopy.length ? doPublication(publicationsCopy.shift()).next().value.then(re) : "Finished."
+  })
+  .then((complete) => {
+    console.log(complete);
+  });
+
 });

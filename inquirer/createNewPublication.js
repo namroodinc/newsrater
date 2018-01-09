@@ -14,6 +14,11 @@ const questions = [
   },
   {
     type: 'input',
+    name: 'sundayEdition',
+    message: "Sunday Edition"
+  },
+  {
+    type: 'input',
     name: 'website',
     message: "Website"
   },
@@ -53,6 +58,6 @@ const questions = [
 ];
 
 inquirer.prompt(questions).then(answers => {
-  const { name, disambiguation, website, newsApiId, pcc, ipso } = answers;
-  stepTwo(name, disambiguation, website, newsApiId, pcc, ipso);
+  const { name, disambiguation, sundayEdition, website, newsApiId, pcc, ipso } = answers;
+  stepTwo(name, disambiguation, sundayEdition, website, newsApiId, pcc, ipso);
 });
