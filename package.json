@@ -6,6 +6,7 @@
   "scripts": {
     "start": "babel-node index.js",
     "createNew": "babel-node inquirer/createNewPublication.js",
+    "createPublications": "babel-node scheduler/createPublications-readFromFile.js",
     "calculateOverallRating": "babel-node scheduler/updatePublications-calculateOverallRating.js",
     "getAlexa": "babel-node scheduler/updatePublications-getAlexa.js",
     "getGoogleNews": "babel-node scheduler/updatePublications-getGoogleNews.js",
@@ -37,6 +38,7 @@
     "babel-preset-node6": "^11.0.0",
     "contentful": "^5.0.5",
     "contentful-management": "^4.1.2",
+    "d3": "^4.12.2",
     "dotenv": "^4.0.0",
     "express": "^4.16.2",
     "inquirer": "^4.0.1",
@@ -45,6 +47,7 @@
     "npm-run-all": "^4.1.2",
     "osmosis": "^1.1.4",
     "parse-domain": "^2.0.0",
+    "read-file": "^0.2.0",
     "sentiment": "^4.1.0",
     "superagent": "^3.8.2",
     "twitter": "^1.7.1",
