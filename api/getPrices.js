@@ -1,7 +1,7 @@
 import request from "superagent";
-import { tescoPrimaryKey } from "../config";
+import { tescoPrimaryKey, waitroseApiPartOne, waitroseApiPartTwo } from "../config";
 
-module.exports = (publication, publicationSunday) => {
+module.exports = (publication) => {
 
   const returnTescoPrices = (name) => new Promise((resolve, reject) => {
     request
@@ -16,62 +16,58 @@ module.exports = (publication, publicationSunday) => {
       });
   });
 
-  let prices = [
-    returnTescoPrices(publication)
-  ];
-  if (publicationSunday !== '') prices.push(returnTescoPrices(publicationSunday));
+  const returnWaitrosePrices = (name) => new Promise((resolve, reject) => {
+    console.log(`${waitroseApiPartOne}${name}${waitroseApiPartTwo}`);
+    request
+      .get(`${waitroseApiPartOne}${name}${waitroseApiPartTwo}`)
+      .end(function(err, res){
+        console.log(res.body);
+        if (err || !res.ok) {
+          reject(res.toError());
+        } else {
+          resolve(res.body);
+        }
+      });
+  });
 
+  return Promise.all([returnTescoPrices(publication), returnWaitrosePrices(publication)]).then((values) => {
 
-  return Promise.all(prices).then((values) => {
+    const responseTesco = values[0].uk.ghs.products.results;
+    const responseWaitrose = values[1];
+    console.log(responseWaitrose);
 
-    const response = values[0].uk.ghs.products.results;
-    let responseSunday = [];
-    if (values[1] !== undefined) responseSunday = values[1].uk.ghs.products.results;
-
-    let responseSort = response;
-    if (responseSort.length > 0) {
-      responseSort = response
+    let responseTescoSort = responseTesco;
+    if (responseTescoSort.length > 0) {
+      responseTescoSort = responseTesco
         .sort((a, b) => b.price - a.price)
-        .map((item, i) => {
-          const { tpnb, name, id, price } = item;
+        .map((item) => {
+          const { name, price } = item;
           return {
-            tpnb,
+            source: 'tesco',
             name,
-            id,
-            price,
-            isWeekend: i === 0 && responseSunday === undefined,
-            isSaturday: i === 0 && responseSunday !== undefined,
-            isSunday: responseSunday === undefined
+            price: parseFloat(price)
+          }
+        });
+    }
+
+    let responseWaitroseSort = responseWaitrose;
+    if (responseWaitroseSort.length > 0) {
+      responseWaitroseSort = responseWaitrose[responseWaitrose.length - 1]
+        .sort((a, b) => b.price - a.price)
+        .map((item) => {
+          const { name, currentsaleunitretailpriceamount } = item;
+          return {
+            source: 'waitrose',
+            name,
+            price: parseFloat(currentsaleunitretailpriceamount)
           }
         });
     }
 
     let responses = [
-      ...responseSort
+      ...responseTescoSort,
+      ...responseWaitroseSort
     ];
-    if (responseSunday !== undefined) {
-      let responseSundaySort = responseSunday;
-      if (responseSundaySort.length > 0) {
-        responseSundaySort = responseSunday
-          .map((item) => {
-            const { tpnb, name, id, price } = item;
-            return {
-              tpnb,
-              name,
-              id,
-              price,
-              isWeekend: false,
-              isSaturday: false,
-              isSunday: true
-            }
-          });
-      }
-
-      responses = [
-        ...responseSort,
-        ...responseSundaySort
-      ]
-    }
 
     return responses;
   });

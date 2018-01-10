@@ -129,9 +129,8 @@ export default function (name, disambiguation, sundayEdition, website, newsApiId
       const priceName = name['en-US'];
       const priceSundayEdition = sundayEdition['en-US'];
 
-      getPrices(priceName, priceSundayEdition)
+      getPrices(priceName)
         .then(pricesResponse => {
-
           const pricesSelection = {
             type: 'checkbox',
             name: 'pricesList',
@@ -154,7 +153,12 @@ export default function (name, disambiguation, sundayEdition, website, newsApiId
 
             const pricesList = {
               publicationPrice: {
-                'en-US': pricesSelected
+                'en-US': [
+                  {
+                    timestamp: Date.now(),
+                    data: pricesSelected
+                  }
+                ]
               }
             };
 
@@ -172,7 +176,6 @@ export default function (name, disambiguation, sundayEdition, website, newsApiId
         generateId += ` ${disambiguation['en-US']}`
       }
       const convertToId = generateId.toLowerCase().replace(/ /g, '-');
-      console.log(convertToId);
       getSpace
         .then((space) => space.createEntryWithId('publication', convertToId, {
           fields

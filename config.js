@@ -26,6 +26,8 @@ const twitterAccessTokenSecret = process.env.TWITTER_ACCESS_TOKEN_SECRET;
 const googleMapsGeolocationApi = process.env.GOOGLE_MAPS_GEOLOCATION_API;
 const tescoPrimaryKey = process.env.TESCO_PRIMARY_KEY;
 const tescoSecondaryKey = process.env.TESCO_SECONDARY_KEY;
+const waitroseApiPartOne = process.env.WAITROSE_API_PART_ONE;
+const waitroseApiPartTwo = process.env.WAITROSE_API_PART_TWO;
 
 export {
   alexaRankBaseUrl,
@@ -53,5 +55,7 @@ export {
   twitterAccessTokenSecret,
   googleMapsGeolocationApi,
   tescoPrimaryKey,
-  tescoSecondaryKey
+  tescoSecondaryKey,
+  waitroseApiPartOne,
+  waitroseApiPartTwo
 };
