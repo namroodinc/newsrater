@@ -1,9 +1,9 @@
 import request from "superagent";
-import { tescoPrimaryKey, tescoSecondaryKey } from "../config";
+import { tescoPrimaryKey } from "../config";
 
 module.exports = (publication, publicationSunday) => {
 
-  const returnTescoPrices = (name) => new Promise((resolve) => {
+  const returnTescoPrices = (name) => new Promise((resolve, reject) => {
     request
       .get(`https://dev.tescolabs.com/grocery/products/?query=${name}&offset=0&limit=10`)
       .set('Ocp-Apim-Subscription-Key', tescoPrimaryKey)
@@ -16,13 +16,13 @@ module.exports = (publication, publicationSunday) => {
       });
   });
 
-  let tescoPrices = [
+  let prices = [
     returnTescoPrices(publication)
   ];
-  if (publicationSunday !== '') tescoPrices.push(returnTescoPrices(publicationSunday));
+  if (publicationSunday !== '') prices.push(returnTescoPrices(publicationSunday));
 
 
-  return Promise.all(tescoPrices).then((values) => {
+  return Promise.all(prices).then((values) => {
 
     const response = values[0].uk.ghs.products.results;
     let responseSunday = [];

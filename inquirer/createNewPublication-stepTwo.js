@@ -2,7 +2,7 @@ import * as contentful from "contentful-management";
 import inquirer from "inquirer";
 
 import getGoogleGeocode from "../api/getGoogleGeocode";
-import getTesco from "../api/getTesco";
+import getPrices from "../api/getPrices";
 import getTwitter from "../api/getTwitter";
 import getIpsoList from "../crawlers/getIpsoList";
 import getWikipedia from "../crawlers/getWikipedia";
@@ -82,7 +82,7 @@ export default function (name, disambiguation, sundayEdition, website, newsApiId
     }
   };
 
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
 
     const createIpso = (name, website, fields) => {
       getIpsoList(name, website)
@@ -117,26 +117,26 @@ export default function (name, disambiguation, sundayEdition, website, newsApiId
             };
 
             const newFields = Object.assign({}, fields, ipsoList);
-            createTesco(newFields);
+            createPrices(newFields);
           });
         });
     }
 
-    const createTesco = (fields) => {
+    const createPrices = (fields) => {
 
       const { name, sundayEdition } = fields;
 
       const priceName = name['en-US'];
       const priceSundayEdition = sundayEdition['en-US'];
 
-      getTesco(priceName, priceSundayEdition)
-        .then(tescoResponse => {
+      getPrices(priceName, priceSundayEdition)
+        .then(pricesResponse => {
 
-          const tescoSelection = {
+          const pricesSelection = {
             type: 'checkbox',
-            name: 'tescoList',
-            message: 'Tesco Prices selection',
-            choices: tescoResponse.map(data => {
+            name: 'pricesList',
+            message: 'Prices selection',
+            choices: pricesResponse.map(data => {
               return {
                 name: `${data.name} - /price-${data.price} - /id-${data.id}`,
                 checked: data.name === priceName || data.name === priceSundayEdition
@@ -144,21 +144,21 @@ export default function (name, disambiguation, sundayEdition, website, newsApiId
             })
           };
 
-          inquirer.prompt(tescoSelection).then(tescoAnswers => {
+          inquirer.prompt(pricesSelection).then(pricesAnswers => {
 
-            const tescoSelected = tescoAnswers.tescoList.map(data => {
+            const pricesSelected = pricesAnswers.pricesList.map(data => {
               const splitId = data.split('/id-');
-              const filtered = tescoResponse.filter(filtered => filtered.id === splitId[1]);
+              const filtered = pricesResponse.filter(filtered => filtered.id === splitId[1]);
               return filtered[0]
             });
 
-            const tescoList = {
+            const pricesList = {
               publicationPrice: {
-                'en-US': tescoSelected
+                'en-US': pricesSelected
               }
             };
 
-            const newFields = Object.assign({}, fields, tescoList);
+            const newFields = Object.assign({}, fields, pricesList);
             createDraft(newFields);
 
           });
