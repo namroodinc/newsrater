@@ -138,7 +138,7 @@ export default function (name, disambiguation, sundayEdition, website, newsApiId
             choices: pricesResponse.map(data => {
               return {
                 name: `${data.name} - /price-${data.price} - /id-${data.id}`,
-                checked: data.name === priceName || data.name === priceSundayEdition
+                checked: data.name === priceName || data.name === priceSundayEdition || data.source === 'custom'
               }
             })
           };
@@ -184,7 +184,11 @@ export default function (name, disambiguation, sundayEdition, website, newsApiId
           console.log(`** ${entry.fields.name['en-US']} created as draft (with address).`);
 
           // RESOLVE
+          // RESOLVE
+          // RESOLVE
           resolve();
+          // RESOLVE
+          // RESOLVE
           // RESOLVE
 
         })

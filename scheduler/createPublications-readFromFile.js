@@ -12,8 +12,7 @@ read("./list.csv", (err, buffer) => {
   function copyFilesAndRunAnalysis(publication) {
     return new Promise(function(resolve) {
       stepTwo(publication[0], publication[1], publication[2], publication[3], publication[4], publication[5], publication[6])
-        .then(answers => {
-          console.log(answers);
+        .then(() => {
           resolve(publication); // control should return to generator here
         });
     });
@@ -25,14 +24,16 @@ read("./list.csv", (err, buffer) => {
 
   // BEGIN HERE
   console.log("Start.");
-
   const publicationBatch = doPublication(publicationsCopy.shift());
-  publicationBatch.next().value.then(function re(data) {
-    console.log(data);
-    return publicationsCopy.length ? doPublication(publicationsCopy.shift()).next().value.then(re) : "Finished."
-  })
-    .then((complete) => {
-      console.log(complete);
+  publicationBatch
+    .next()
+    .value
+    .then(function re(data) {
+      console.log('data: ', data);
+      return publicationsCopy.length ? doPublication(publicationsCopy.shift()).next().value.then(re) : "Finished."
+    })
+    .then(() => {
+      console.log('complete');
     });
 
 });

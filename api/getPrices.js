@@ -1,6 +1,6 @@
-import osmosis from "osmosis";
+import inquirer from "inquirer";
 import request from "superagent";
-import { tescoPrimaryKey, waitroseShop } from "../config";
+import { tescoPrimaryKey } from "../config";
 
 module.exports = (publication) => {
 
@@ -17,63 +17,110 @@ module.exports = (publication) => {
       });
   });
 
-  const returnWaitrosePrices = (name) => new Promise((resolve) => {
-    console.log(`${waitroseShop}${name}`);
+  const returnCustomPrices = (publicationName) => new Promise((resolve) => {
     let savedData = [];
-    osmosis
-      .get(`${waitroseShop}${name}`)
-      .find('body')
-      .set('title')
-      .data((listings) => {
-        console.log(listings);
-        // const { title, rating } = listings;
-        // if (title !== '') {
-        //   const ratingCalc = (parseInt(rating.left.replace(/\D/g,'') / 2)) + (parseInt(rating.right.replace(/\D/g,'') / 2));
-        //   savedData.push({
-        //     title,
-        //     rating: ratingCalc
-        //   })
-        // }
-      })
-      .done(() => resolve(savedData));
+
+    const startUpQuestions = [
+      {
+        type: 'list',
+        name: 'add',
+        message: "Add price?",
+        choices: [
+          {
+            name: 'Yes',
+            checked: true
+          },
+          {
+            name: 'No'
+          }
+        ]
+      }
+    ];
+
+    const questions = [
+      {
+        type: 'input',
+        name: 'price',
+        message: "Price"
+      },
+      {
+        type: 'list',
+        name: 'daily',
+        message: "Daily/Weekend",
+        choices: [
+          {
+            name: 'Daily',
+            checked: true
+          },
+          {
+            name: 'Saturday'
+          },
+          {
+            name: 'Weekend'
+          },
+          {
+            name: 'Sunday'
+          }
+        ]
+      },
+      {
+        type: 'input',
+        name: 'otherName',
+        message: "Different Name?"
+      }
+    ];
+
+    const questionsLoop = () => {
+      return inquirer.prompt(startUpQuestions).then(answers => {
+        const { add } = answers;
+
+        if (add === 'No') {
+          resolve(savedData);
+        } else {
+          inquirer.prompt(questions).then(answers => {
+            const { price, daily, otherName } = answers;
+            if (add === 'No') {
+              resolve(savedData);
+            } else {
+              let name = otherName === '' ? publicationName : otherName;
+              if (daily !== 'Daily') name += ` (${daily})`;
+              savedData.push({
+                id: name.replace(/ /g, '-').toLowerCase(),
+                name,
+                price: parseFloat(price),
+                source: 'custom'
+              });
+            }
+          }).then(() => {
+            questionsLoop();
+          });
+        }
+      });
+    }
+    questionsLoop();
   });
 
-  return Promise.all([returnTescoPrices(publication), returnWaitrosePrices(publication)]).then((values) => {
-
+  return Promise.all([returnTescoPrices(publication), returnCustomPrices(publication)]).then((values) => {
     const responseTesco = values[0].uk.ghs.products.results;
-    const responseWaitrose = values[1];
+    const responseCustom = values[1];
 
     let responseTescoSort = responseTesco;
     if (responseTescoSort.length > 0) {
       responseTescoSort = responseTesco
         .sort((a, b) => b.price - a.price)
         .map((item) => {
-          const { name, price } = item;
+          const { id, name, price } = item;
           return {
-            source: 'tesco',
+            id,
             name,
-            price: parseFloat(price)
+            price: parseFloat(price),
+            source: 'tesco'
           }
         });
     }
-
-    let responseWaitroseSort = responseWaitrose;
-    if (responseWaitroseSort.length > 0) {
-      responseWaitroseSort = responseWaitrose[responseWaitrose.length - 1]
-        .sort((a, b) => b.price - a.price)
-        .map((item) => {
-          const { name, currentsaleunitretailpriceamount } = item;
-          return {
-            source: 'waitrose',
-            name,
-            price: parseFloat(currentsaleunitretailpriceamount)
-          }
-        });
-    }
-
     let responses = [
       ...responseTescoSort,
-      ...responseWaitroseSort
+      ...responseCustom
     ];
 
     return responses;
