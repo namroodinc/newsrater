@@ -1,5 +1,6 @@
+import osmosis from "osmosis";
 import request from "superagent";
-import { tescoPrimaryKey, waitroseApiPartOne, waitroseApiPartTwo } from "../config";
+import { tescoPrimaryKey, waitroseShop } from "../config";
 
 module.exports = (publication) => {
 
@@ -16,25 +17,31 @@ module.exports = (publication) => {
       });
   });
 
-  const returnWaitrosePrices = (name) => new Promise((resolve, reject) => {
-    console.log(`${waitroseApiPartOne}${name}${waitroseApiPartTwo}`);
-    request
-      .get(`${waitroseApiPartOne}${name}${waitroseApiPartTwo}`)
-      .end(function(err, res){
-        console.log(res.body);
-        if (err || !res.ok) {
-          reject(res.toError());
-        } else {
-          resolve(res.body);
-        }
-      });
+  const returnWaitrosePrices = (name) => new Promise((resolve) => {
+    console.log(`${waitroseShop}${name}`);
+    let savedData = [];
+    osmosis
+      .get(`${waitroseShop}${name}`)
+      .find('body')
+      .set('title')
+      .data((listings) => {
+        console.log(listings);
+        // const { title, rating } = listings;
+        // if (title !== '') {
+        //   const ratingCalc = (parseInt(rating.left.replace(/\D/g,'') / 2)) + (parseInt(rating.right.replace(/\D/g,'') / 2));
+        //   savedData.push({
+        //     title,
+        //     rating: ratingCalc
+        //   })
+        // }
+      })
+      .done(() => resolve(savedData));
   });
 
   return Promise.all([returnTescoPrices(publication), returnWaitrosePrices(publication)]).then((values) => {
 
     const responseTesco = values[0].uk.ghs.products.results;
     const responseWaitrose = values[1];
-    console.log(responseWaitrose);
 
     let responseTescoSort = responseTesco;
     if (responseTescoSort.length > 0) {
