@@ -26,6 +26,7 @@ const twitterAccessTokenSecret = process.env.TWITTER_ACCESS_TOKEN_SECRET;
 const googleMapsGeolocationApi = process.env.GOOGLE_MAPS_GEOLOCATION_API;
 const tescoPrimaryKey = process.env.TESCO_PRIMARY_KEY;
 const tescoSecondaryKey = process.env.TESCO_SECONDARY_KEY;
+const ukNewspaperCirculation = process.env.UK_NEWSPAPER_CIRCULATION;
 
 export {
   alexaRankBaseUrl,
@@ -53,5 +54,6 @@ export {
   twitterAccessTokenSecret,
   googleMapsGeolocationApi,
   tescoPrimaryKey,
-  tescoSecondaryKey
+  tescoSecondaryKey,
+  ukNewspaperCirculation
 };
