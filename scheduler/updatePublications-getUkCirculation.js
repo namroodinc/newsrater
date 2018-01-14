@@ -4,18 +4,18 @@ import { ukNewspaperCirculation } from "../config";
 
 getUkCirculation(ukNewspaperCirculation)
   .then(values => {
-    let array = [];
+    let circulation = [];
     values.map(value => {
       value.map(pub => {
-        let find = array.findIndex(i => i.Title === pub.Title);
+        let find = circulation.findIndex(i => i.Title === pub.Title);
         if (find > 0) {
-          array[find] = Object.assign({}, array[find], pub);
+          circulation[find] = Object.assign({}, circulation[find], pub);
         } else {
-          array.push(pub);
+          circulation.push(pub);
         }
       });
     })
-    return array;
+    return circulation;
   })
   .then(values => {
     return values.map(publication => {
@@ -24,12 +24,15 @@ getUkCirculation(ukNewspaperCirculation)
       delete pubCirculation.Title;
       return {
         publicationTitle: getWikipediaSanitize(pubName),
-        circulationHistory: Object.keys(pubCirculation).map(pub => {
-          return {
-            year: getWikipediaSanitize(pub),
-            value: pubCirculation[pub]
-          }
-        })
+        circulationHistory: Object.keys(pubCirculation)
+          .map(pub => {
+            return {
+              year: getWikipediaSanitize(pub),
+              value: parseInt(pubCirculation[pub])
+            }
+          })
+          .filter(by => by.value)
+          .sort((a, b) => b.year - a.year)
       }
     })
   })
