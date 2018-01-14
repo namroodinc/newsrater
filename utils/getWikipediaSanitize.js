@@ -1,3 +1,3 @@
 export default function (string) {
-  return string.replace(/\[.*?\]/g, '');
+  return string.replace(/\[.*?\]/g, '').trim();
 }

@@ -1,6 +1,13 @@
+import * as contentful from "contentful-management";
 import getUkCirculation from "../crawlers/getUkCirculation";
 import getWikipediaSanitize from "../utils/getWikipediaSanitize";
-import { ukNewspaperCirculation } from "../config";
+import { cfSpaceId, cfCmaToken, ukNewspaperCirculation } from "../config";
+
+const client = contentful.createClient({
+  accessToken: cfCmaToken
+});
+const getSpace = client.getSpace(cfSpaceId);
+const typeOfUpdate = 'Circulation figures';
 
 getUkCirculation(ukNewspaperCirculation)
   .then(values => {
@@ -23,7 +30,7 @@ getUkCirculation(ukNewspaperCirculation)
       const pubCirculation = publication;
       delete pubCirculation.Title;
       return {
-        publicationTitle: getWikipediaSanitize(pubName),
+        name: getWikipediaSanitize(pubName),
         circulationHistory: Object.keys(pubCirculation)
           .map(pub => {
             return {
@@ -32,10 +39,33 @@ getUkCirculation(ukNewspaperCirculation)
             }
           })
           .filter(by => by.value)
-          .sort((a, b) => b.year - a.year)
       }
     })
   })
   .then(values => {
-    console.log(JSON.stringify(values.find(pub => pub.publicationTitle === 'Financial Times'), undefined, 3));
+    getSpace
+      .then((space) => space.getEntries({
+        content_type: 'publication'
+      }))
+      .then((response) => {
+        response.items.map(data => {
+          let circulation = [];
+          values
+            .filter(pub => pub.name === data.fields.name['en-US'])
+            .map(pub => pub.circulationHistory.map(publication => circulation.push(publication)));
+
+          if (circulation.length > 0) {
+            getSpace
+              .then((space) => space.getEntry(data.sys.id))
+              .then((entry) => {
+                entry.fields.circulationHistroy['en-US'] = circulation.sort((a, b) => b.year - a.year);
+                return entry.update();
+              })
+              .then((entry) => entry.publish())
+              .then((entry) => console.log(`** ${entry.fields.name['en-US']} ${typeOfUpdate} updated & published.`))
+              .catch(console.error);
+          }
+        });
+      })
+      .catch(console.error);
   });

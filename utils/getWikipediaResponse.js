@@ -61,9 +61,6 @@ export default function (wikipediaResponse) {
       case 'Headquarters':
         formatValue({ field: 'headquarters', value, arrayLimit: 1 });
         break;
-      case 'Circulation':
-        formatValue({ field: 'circulation', value });
-        break;
       case 'Readership':
         formatValue({ field: 'readership', value });
         break;
@@ -85,6 +82,7 @@ export default function (wikipediaResponse) {
       case 'Alexa rank':
       case 'Area served':
       case 'CEO':
+      case 'Circulation':
       case 'Commercial':
       case 'Country':
       case 'Created by':

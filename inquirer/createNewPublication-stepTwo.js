@@ -74,6 +74,9 @@ export default function (name, disambiguation, sundayEdition, website, newsApiId
     twitterAccounts: {
       'en-US': []
     },
+    circulationHistroy: {
+      'en-US': []
+    },
     publicationPrice: {
       'en-US': []
     },
