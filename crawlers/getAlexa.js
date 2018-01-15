@@ -8,11 +8,11 @@ module.exports = (api) => {
       .get(`${alexaRankBaseUrl}${api}`)
       .find('.globleRank .metrics-data')
       .set('globalRank')
-      // .find('.countryRank .metrics-data')
-      // .set('countryRank')
       .data((globals) => {
         const { globalRank } = globals;
-        const globalRankInt = parseInt(globalRank);
+        var commas = ',';
+        var re = new RegExp(commas, 'g');
+        const globalRankInt = parseInt(globalRank.replace(re, ''));
         savedData = {
           globalRank: globalRankInt
         };

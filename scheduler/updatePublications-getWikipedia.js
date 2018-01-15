@@ -17,7 +17,7 @@ getSpace
   .then((response) => {
     response.items.map(data => {
       const name = data.fields.name['en-US'];
-      const disambiguation = data.fields.disambiguation ? '(' + data.fields.disambiguation['en-US'] + ')' : '';
+      const disambiguation = data.fields.disambiguation ? data.fields.disambiguation['en-US'] : '';
       getWikipedia(name, disambiguation)
         .then((wikipediaResponse) => {
           getSpace

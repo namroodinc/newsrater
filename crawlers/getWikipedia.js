@@ -4,7 +4,7 @@ import { wikipediaSearch } from "../config";
 export default function (publicationName, publicationDisambiguation) {
   let apiUrl = `${wikipediaSearch}?search=${publicationName}`;
   if (publicationDisambiguation !== '') apiUrl += ` (${publicationDisambiguation})`;
-  
+
   const globals = new Promise((resolve) => { // TODO: Add reject (resolve, reject) error
     let savedData = [];
     osmosis
