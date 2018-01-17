@@ -1,14 +1,14 @@
 import * as contentful from "contentful-management";
 
-import getWikipedia from "../crawlers/getWikipedia";
+import getWikipediaGetGoogleGeocode from "../combiners/getWikipediaGetGoogleGeocode";
 import cfPostApi from "../utils/cfPostApi";
-import getWikipediaResponse from "../utils/getWikipediaResponse";
 import { cfSpaceId, cfCmaToken } from "../config";
+const typeOfUpdate = 'Information';
+
 const client = contentful.createClient({
   accessToken: cfCmaToken
 });
 const getSpace = client.getSpace(cfSpaceId);
-const typeOfUpdate = 'Information';
 
 getSpace
   .then((space) => space.getEntries({
@@ -18,13 +18,14 @@ getSpace
     response.items.map(data => {
       const name = data.fields.name['en-US'];
       const disambiguation = data.fields.disambiguation ? data.fields.disambiguation['en-US'] : '';
-      getWikipedia(name, disambiguation)
+      getWikipediaGetGoogleGeocode(name, disambiguation)
         .then((wikipediaResponse) => {
+
           getSpace
             .then((space) => space.getEntry(data.sys.id))
             .then((entry) => {
               let fields = Object.assign({}, entry.fields);
-              let updatedFields = getWikipediaResponse(wikipediaResponse);
+              let updatedFields = wikipediaResponse;
 
               const newFields = Object.assign({}, fields, updatedFields);
 
@@ -34,6 +35,7 @@ getSpace
             })
             .then((entry) => console.log(`** ${entry.fields.name['en-US']} ${typeOfUpdate} updated & published.`))
             .catch(console.error);
+
         });
     });
   })

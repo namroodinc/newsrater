@@ -1,12 +1,10 @@
 import * as contentful from "contentful-management";
 import inquirer from "inquirer";
 
-import getGoogleGeocode from "../api/getGoogleGeocode";
 import getPrices from "../api/getPrices";
 import getTwitter from "../api/getTwitter";
+import getWikipediaGetGoogleGeocode from "../combiners/getWikipediaGetGoogleGeocode";
 import getIpsoList from "../crawlers/getIpsoList";
-import getWikipedia from "../crawlers/getWikipedia";
-import getWikipediaResponse from "../utils/getWikipediaResponse";
 import { cfSpaceId, cfCmaToken } from "../config";
 
 const client = contentful.createClient({
@@ -198,10 +196,10 @@ export default function (name, disambiguation, sundayEdition, website, newsApiId
         .catch(console.error);
     }
 
-    getWikipedia(name, disambiguation)
+    getWikipediaGetGoogleGeocode(name, disambiguation)
       .then((wikipediaResponse) => {
 
-        const updatedFields = getWikipediaResponse(wikipediaResponse);
+        const updatedFields = wikipediaResponse;
 
         getTwitter(`${name}`)
           .then((twitterResponse) => {
@@ -237,37 +235,8 @@ export default function (name, disambiguation, sundayEdition, website, newsApiId
                 }
               };
 
-              if (updatedFields.headquarters !== undefined) {
-
-                getGoogleGeocode(updatedFields.headquarters['en-US'])
-                  .then(geocode => {
-                    const geocodeResult = geocode.address.results[0];
-                    const countryNameCode = geocodeResult.address_components.filter(component => component.types.indexOf('country') !== -1);
-                    const geocodeAddress = {
-                      geocodeAddress: {
-                        'en-US': geocodeResult
-                      },
-                      headquarters: {
-                        'en-US': geocodeResult.formatted_address
-                      },
-                      country: {
-                        'en-US': countryNameCode[0].long_name
-                      },
-                      countryGeocode: {
-                        'en-US': countryNameCode[0].short_name
-                      }
-                    };
-
-                    const newFields = Object.assign({}, inputFields, updatedFields, twitterAccounts, geocodeAddress);
-                    createIpso(name, website, newFields);
-                  });
-
-              } else {
-
-                const newFields = Object.assign({}, inputFields, updatedFields, twitterAccounts);
-                createIpso(name, website, newFields);
-
-              }
+              const newFields = Object.assign({}, inputFields, updatedFields, twitterAccounts);
+              createIpso(name, website, newFields);
             });
           });
       });
