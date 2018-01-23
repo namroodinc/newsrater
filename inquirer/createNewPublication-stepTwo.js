@@ -25,7 +25,7 @@ export default function (name, disambiguation, sundayEdition, website, newsApiId
       'en-US': sundayEdition
     },
     website: {
-      'en-US': `https://www.${website}`
+      'en-US': website.startsWith('https://') ? website : `https://www.${website}`
     },
     description: {
       'en-US': 'Description required.'

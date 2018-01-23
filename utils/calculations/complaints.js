@@ -16,11 +16,13 @@ const createArray = (pcc, ipso) => {
 export default function (pcc, ipso, complaintsAvg) {
   const array = createArray(pcc, ipso);
 
+  if (array === null) return complaintsAvg;
+
   const upheld = array.map(data =>data['Upheld']).reduce(getSum);
   const resolved = array.map(data =>data['Resolved']).reduce(getSum);
   const total = array.map(data =>data['Total']).reduce(getSum);
 
-  if (array === null || total === 0) return complaintsAvg;
+  if (total === 0) return complaintsAvg;
 
   const weighting = (total * 100 / 1000);
   const score = (upheld + resolved) * 100 / total;
