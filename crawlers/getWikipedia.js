@@ -56,7 +56,7 @@ export default function (publicationName, publicationDisambiguation) {
     let wikipediaDescription = "";
     osmosis
       .get(apiUrl)
-      .find('.infobox + p, .thumb.tright + p, .vertical-navbox + p')
+      .find('.infobox + p, .infobox + .thumb.tright + p, .infobox + .thumb.tright + .thumb.tright + p, .infobox + .vertical-navbox + p')
       .set('description')
       .data((description) => {
         wikipediaDescription = description;

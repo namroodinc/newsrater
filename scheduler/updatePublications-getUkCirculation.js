@@ -59,6 +59,7 @@ getUkCirculation(ukNewspaperCirculation)
               .then((space) => space.getEntry(data.sys.id))
               .then((entry) => {
                 entry.fields.circulationHistroy['en-US'] = circulation.sort((a, b) => b.year - a.year);
+                console.log(circulation.length, ' number of circulation records retrieved')
                 return entry.update();
               })
               .then((entry) => entry.publish())
