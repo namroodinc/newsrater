@@ -53,6 +53,9 @@ module.exports = (publication) => {
             checked: true
           },
           {
+            name: 'Weekly'
+          },
+          {
             name: 'Saturday'
           },
           {
