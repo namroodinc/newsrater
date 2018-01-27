@@ -57,6 +57,8 @@ getSpace
               const stringifyResults = JSON.stringify(result.rss.channel[0].item, undefined, 3);
               const results = JSON.parse(stringifyResults);
 
+              console.log(results);
+
               getSpace
                 .then((space) => space.getEntry(data.sys.id))
                 .then((entry) => {
