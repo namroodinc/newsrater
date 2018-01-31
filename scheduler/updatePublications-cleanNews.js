@@ -6,7 +6,7 @@ const client = contentful.createClient({
 const getSpace = client.getSpace(cfSpaceId);
 
 import { cfSpaceId, cfCmaToken } from "../config";
-const typeOfUpdate = 'Top Headlines for today';
+const typeOfUpdate = 'news articles';
 
 getSpace
   .then((space) => space.getEntries({
