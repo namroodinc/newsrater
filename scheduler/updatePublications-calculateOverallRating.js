@@ -5,6 +5,7 @@ const client = contentful.createClient({
 });
 const getSpace = client.getSpace(cfSpaceId);
 
+// import alexaCalculation from "../utils/calculations/alexa";
 import articleCalculation from "../utils/calculations/articles";
 import complaintsCalculation from "../utils/calculations/complaints";
 import educationCalculation from "../utils/calculations/education";
@@ -16,6 +17,17 @@ const typeOfUpdate = 'calculating Overall Rating';
 const getSum = (total, num) => {
   return total + num;
 }
+
+// const median = (values) => {
+//   values.sort((a, b) => a - b);
+//   const half = Math.floor(values.length / 2);
+//
+//   if (values.length % 2) {
+//     return values[half];
+//   } else {
+//     return (values[half - 1] + values[half]) / 2.0;
+//   }
+// }
 
 getSpace
   .then((space) => space.getEntries({
@@ -33,10 +45,22 @@ getSpace
 
     const complaintsAvg = (calculateComplaintsAvg.length > 0) ? (calculateComplaintsAvg.reduce(getSum) / calculateComplaintsAvg.length) : 35;
 
+    // const calculateAlexa = response.items
+    //   .filter(data => data.fields.siteRankings['en-US'].length > 0)
+    //   .map(data => {
+    //     const siteRankings = data.fields.siteRankings['en-US'];
+    //     return siteRankings[siteRankings.length - 1].data.globalRank;
+    //   })
+    //   .filter(data => data !== null)
+    //   .sort((a, b) => a - b);
+
+    // const alexaMedian = median(calculateAlexa);
+
     response.items.map(data => {
       getSpace
         .then((space) => space.getEntry(data.sys.id))
         .then((entry) => {
+          // const alexa = alexaCalculation(entry.fields.siteRankings['en-US'], calculateAlexa[calculateAlexa.length - 1]);
           const articles = articleCalculation(entry.fields.articles['en-US']);
           const complaints = complaintsCalculation(entry.fields.pressComplaints['en-US'], entry.fields.independentPressStandardsOrganisation['en-US'], complaintsAvg);
           const education = educationCalculation(entry.fields.demographics['en-US']);
@@ -44,6 +68,7 @@ getSpace
           const sfw = sfwCalculation(entry.fields.demographics['en-US']);
 
           const toBeCalculated = [];
+          // if (alexa !== null) toBeCalculated.push(alexa);
           if (articles !== null) toBeCalculated.push(articles);
           if (complaints !== null) toBeCalculated.push(complaints);
           if (education !== null) toBeCalculated.push(education);
@@ -55,6 +80,7 @@ getSpace
           entry.fields.overallRating['en-US'].push({
             timestamp: Date.now(),
             ratings: {
+              // alexa,
               articles,
               complaints,
               education,
@@ -64,7 +90,6 @@ getSpace
             }
           });
 
-          entry.fields.simpleRating['en-US'] = parseInt(total);
           return entry.update();
         })
         .then((entry) => entry.publish())
