@@ -23,41 +23,44 @@ getSpace
   }))
   .then((response) => {
     response.items.map(data => {
+      //console.log(data.fields.name['en-US'], ' ', (data.fields.avatar === undefined));
 
-      const params = {
-        screen_name: data.fields.twitterAccounts['en-US'][0].screenName
-      };
-      twitterClient.get('users/show', params, function(error, tweets, response) {
-        if (!error) {
-          const body = JSON.parse(response.body);
-          const fileUrl = body.profile_image_url_https.replace('_normal', '');
-          const fileTypeSplit = fileUrl.split('.');
-          const fileType = fileTypeSplit[fileTypeSplit.length - 1];
-          console.log(data.sys.id);
+      if (data.fields.avatar === undefined) {
+        const params = {
+          screen_name: data.fields.twitterAccounts['en-US'][0].screenName
+        };
+        twitterClient.get('users/show', params, function(error, tweets, response) {
+          if (!error) {
+            const body = JSON.parse(response.body);
+            const fileUrl = body.profile_image_url_https.replace('_normal', '');
+            const fileTypeSplit = fileUrl.split('.');
+            const fileType = fileTypeSplit[fileTypeSplit.length - 1];
+            console.log(data.sys.id);
 
-          getSpace
-            .then((space) => space.createAsset({
-              fields: {
-                title: {
-                  'en-US': `${data.fields.name['en-US']} Avatar`
-                },
-                file: {
-                  'en-US': {
-                    contentType: `image/${fileType}`,
-                    fileName: `${data.sys.id}.${fileType}`,
-                    upload: fileUrl
+            getSpace
+              .then((space) => space.createAsset({
+                fields: {
+                  title: {
+                    'en-US': `${data.fields.name['en-US']} Avatar`
+                  },
+                  file: {
+                    'en-US': {
+                      contentType: `image/${fileType}`,
+                      fileName: `${data.sys.id}.${fileType}`,
+                      upload: fileUrl
+                    }
                   }
                 }
-              }
-            }))
-            .then((asset) => asset.processForAllLocales())
-            .then((asset) => console.log(asset))
-            .catch(console.error)
+              }))
+              .then((asset) => asset.processForAllLocales())
+              .then((asset) => console.log(asset))
+              .catch(console.error)
 
-        } else {
-          console.log(error);
-        }
-      });
+          } else {
+            console.log(error);
+          }
+        });
+      }
 
     });
   })
