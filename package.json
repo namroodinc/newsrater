@@ -21,7 +21,7 @@
     "getWikipedia": "babel-node scheduler/updatePublications-getWikipedia.js",
     "updateTwitter": "babel-node scheduler/updatePublications-updateTwitter.js",
     "welcome": "node welcome.js",
-    "scheduler": "npm-run-all --sequential welcome getAlexa getNews calculateOverallRating",
+    "scheduler": "npm-run-all --sequential welcome getAlexa getNews getWikipedia calculateOverallRating",
     "lint": "eslint -c .eslintrc ./",
     "precommit": "npm run lint",
     "test": "echo No tests to run"
