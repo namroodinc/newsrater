@@ -105,11 +105,15 @@ export default function (wikipediaResponse) {
   updatedFields.description = {
     'en-US': getWikipediaSanitize(description.description)
   }
-  updatedFields.format = {
-    'en-US': updatedArrays.format
+  if (updatedArrays.format.length > 0) {
+    updatedFields.format = {
+      'en-US': updatedArrays.format
+    }
   }
-  updatedFields.politicalAlignment = {
-    'en-US': updatedArrays.politicalAlignment
+  if (updatedArrays.politicalAlignment.length > 0) {
+    updatedFields.politicalAlignment = {
+      'en-US': updatedArrays.politicalAlignment
+    }
   }
 
   return updatedFields;

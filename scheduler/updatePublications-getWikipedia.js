@@ -18,9 +18,9 @@ getSpace
     response.items.map(data => {
       const name = data.fields.name['en-US'];
       const disambiguation = data.fields.disambiguation ? data.fields.disambiguation['en-US'] : '';
-      getWikipediaGetGoogleGeocode(name, disambiguation)
+      getWikipediaGetGoogleGeocode(name, disambiguation, data.fields.headquarters)
         .then((wikipediaResponse) => {
-
+          console.log(wikipediaResponse);
           getSpace
             .then((space) => space.getEntry(data.sys.id))
             .then((entry) => {

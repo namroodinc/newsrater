@@ -2,17 +2,18 @@ import getGoogleGeocode from "../api/getGoogleGeocode";
 import getWikipedia from "../crawlers/getWikipedia";
 import getWikipediaResponse from "../utils/getWikipediaResponse";
 
-export default function (publicationName, publicationDisambiguation) {
+export default function (publicationName, publicationDisambiguation, publicationHq) {
 
   const globals = new Promise((resolve) => {
 
-    getWikipedia(publicationName, publicationDisambiguation)
+    getWikipedia(publicationName, publicationDisambiguation, publicationHq)
       .then((wikipediaResponse) => {
         let updatedFields = getWikipediaResponse(wikipediaResponse);
 
-        if (updatedFields.headquarters !== undefined) {
-
-          getGoogleGeocode(updatedFields.headquarters['en-US'])
+        if (updatedFields.headquarters !== undefined || publicationHq !== undefined) {
+          const address = updatedFields.headquarters !== undefined ? updatedFields.headquarters['en-US'] : publicationHq['en-US'];
+          console.log(address);
+          getGoogleGeocode(address)
             .then(geocode => {
               const geocodeResult = geocode.address.results[0];
               const countryNameCode = geocodeResult.address_components.filter(component => component.types.indexOf('country') !== -1);
