@@ -31,5 +31,10 @@ export default {
   'left': -3,
   'populism': -7,
   'centrist': 3,
-  'populist': -7
+  'populist': -7,
+  'alt-right': -10,
+  'far-right': -10,
+  'xenophobic': -10,
+  'conspiracy': -3,
+  'theories': -3
 }

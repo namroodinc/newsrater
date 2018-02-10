@@ -19,6 +19,7 @@
     "getPrices": "babel-node scheduler/updatePublications-getPrices.js",
     "getUkCirculation": "babel-node scheduler/updatePublications-getUkCirculation.js",
     "getWikipedia": "babel-node scheduler/updatePublications-getWikipedia.js",
+    "updatePrices": "babel-node scheduler/updatePublications-getPrices.js",
     "updateTwitter": "babel-node scheduler/updatePublications-updateTwitter.js",
     "welcome": "node welcome.js",
     "scheduler": "npm-run-all --sequential welcome getAlexa getNews getWikipedia calculateOverallRating",

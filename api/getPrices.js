@@ -24,7 +24,7 @@ module.exports = (publication) => {
       {
         type: 'list',
         name: 'add',
-        message: "Add price?",
+        message: `Add price for ${publicationName}?`,
         choices: [
           {
             name: 'Yes',

@@ -1,6 +1,13 @@
 import * as contentful from "contentful-management";
 import twitter from "twitter";
-import { twitterConsumerKey, twitterConsumerSecret, twitterAccessToken, twitterAccessTokenSecret } from "../config";
+import {
+  cfSpaceId,
+  cfCmaToken,
+  twitterConsumerKey,
+  twitterConsumerSecret,
+  twitterAccessToken,
+  twitterAccessTokenSecret
+} from "../config";
 
 const twitterClient = new twitter({
   consumer_key: twitterConsumerKey,
@@ -8,13 +15,11 @@ const twitterClient = new twitter({
   access_token_key: twitterAccessToken,
   access_token_secret: twitterAccessTokenSecret
 });
-
 const client = contentful.createClient({
   accessToken: cfCmaToken
 });
 const getSpace = client.getSpace(cfSpaceId);
 
-import { cfSpaceId, cfCmaToken } from "../config";
 
 getSpace
   .then((space) => space.getEntries({
