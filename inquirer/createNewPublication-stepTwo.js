@@ -80,6 +80,9 @@ export default function (name, disambiguation, sundayEdition, website, newsApiId
     },
     geocodeAddress: {
       'en-US': {}
+    },
+    politicalAlignment: {
+      'en-US': []
     }
   };
 

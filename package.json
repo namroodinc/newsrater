@@ -9,6 +9,7 @@
     "createNew": "babel-node inquirer/createNewPublication.js",
     "createPublications": "babel-node scheduler/createPublications-readFromFile.js",
     "calculateOverallRating": "babel-node scheduler/updatePublications-calculateOverallRating.js",
+    "calculateOverallRatingForBlanks": "babel-node scheduler/updatePublications-calculateOverallRatingForBlanks.js",
     "getAlexa": "babel-node scheduler/updatePublications-getAlexa.js",
     "getGoogleNews": "babel-node scheduler/updatePublications-getGoogleNews.js",
     "getIPSO": "babel-node scheduler/updatePublications-getIndependentPressStandardsOrganisation.js",
