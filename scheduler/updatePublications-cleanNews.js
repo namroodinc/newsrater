@@ -23,7 +23,7 @@ getSpace
           console.log('Before there were: ', entry.fields.articles['en-US'].length, ' news articles');
           const articleSort = entry.fields.articles['en-US'].sort((a, b) => {
             return new Date(b.publishedAt) - new Date(a.publishedAt);
-          }).splice(0, 50);
+          }).splice(0, 40);
           console.log('Now there are: ', articleSort.length, ' news articles');
 
           entry.fields.articles['en-US'] = articleSort;

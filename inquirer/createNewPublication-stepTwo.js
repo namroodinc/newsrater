@@ -54,6 +54,9 @@ export default function (name, disambiguation, sundayEdition, website, newsApiId
     articles: {
       'en-US': []
     },
+    articlesTags: {
+      'en-US': []
+    },
     checkPcc: {
       'en-US': pcc === 'Yes' ? true : false
     },

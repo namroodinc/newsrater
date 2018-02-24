@@ -27,6 +27,7 @@ const googleMapsGeolocationApi = process.env.GOOGLE_MAPS_GEOLOCATION_API;
 const tescoPrimaryKey = process.env.TESCO_PRIMARY_KEY;
 const tescoSecondaryKey = process.env.TESCO_SECONDARY_KEY;
 const ukNewspaperCirculation = process.env.UK_NEWSPAPER_CIRCULATION;
+const d4TaggingUrl = process.env.D4TAGME_URL;
 
 export {
   alexaRankBaseUrl,
@@ -55,5 +56,6 @@ export {
   googleMapsGeolocationApi,
   tescoPrimaryKey,
   tescoSecondaryKey,
-  ukNewspaperCirculation
+  ukNewspaperCirculation,
+  d4TaggingUrl
 };
