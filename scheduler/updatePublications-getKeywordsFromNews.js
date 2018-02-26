@@ -40,7 +40,7 @@ getSpace
       let tags = '';
       articles.map(article => tags += `${article.title} `);
 
-      getApi(`${d4TaggingUrl}${tags.replace(/[^a-zA-Z0-9\s]/g, '')}`)
+      getApi(`${d4TaggingUrl}${encodeURIComponent(tags.trim())}`)
         .then((tagData) => {
           const results = occurrence(tagData.annotations
             .filter(result => result['link_probability'] > 0.7)
@@ -63,7 +63,7 @@ getSpace
             .then((entry) => console.log(`** ${entry.fields.name['en-US']} ${typeOfUpdate} updated & published.`))
             .catch(console.error);
         });
-
+        
     });
   })
   .catch(console.error);
