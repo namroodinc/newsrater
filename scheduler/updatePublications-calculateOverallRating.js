@@ -1,4 +1,5 @@
 import * as contentful from "contentful-management";
+import moment from "moment";
 
 const client = contentful.createClient({
   accessToken: cfCmaToken
@@ -102,6 +103,14 @@ getSpace
             .sort((a, b) => {
               return new Date(b.timestamp) - new Date(a.timestamp)
             })
+            .reduce((unique, o) => {
+              if (!unique.find(obj => {
+                return moment(obj.timestamp).format('MMM DD YYYY') === moment(o.timestamp).format('MMM DD YYYY')
+              })) {
+                unique.push(o);
+              }
+              return unique;
+            }, [])
             .splice(0, 40);
 
           entry.fields.overallRating['en-US'] = overallRating;

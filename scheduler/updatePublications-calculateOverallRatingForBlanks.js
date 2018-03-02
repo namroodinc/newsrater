@@ -26,10 +26,9 @@ getSpace
   .then((response) => {
 
     const calculateComplaintsAvg = response.items
-      .filter(data => data.fields.overallRating['en-US'].length > 0)
+      .filter(data => data.fields.pressComplaints['en-US'].data !== undefined || data.fields.independentPressStandardsOrganisation['en-US'].data !== undefined)
       .map(data => {
-        const overallRating = data.fields.overallRating['en-US'];
-        return overallRating[overallRating.length - 1].ratings.complaints;
+        return complaintsCalculation(data.fields.pressComplaints['en-US'], data.fields.independentPressStandardsOrganisation['en-US'], 35);
       })
       .filter(data => data !== null);
 
@@ -72,13 +71,6 @@ getSpace
             entry.fields.overallRating['en-US'].push({
               timestamp: Date.now(),
               ratings: {
-                alexa,
-                alignment,
-                articles,
-                complaints,
-                education,
-                equality,
-                sfw,
                 total
               }
             });

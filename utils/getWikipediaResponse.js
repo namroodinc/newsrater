@@ -43,6 +43,8 @@ export default function (wikipediaResponse) {
       case 'Owner(s)':
       case 'Owned by':
       case 'Owner':
+      case 'Company':
+      case 'Parent':
         formatValue({ field: 'ownership', value });
         break;
       case 'Available in':
@@ -58,6 +60,7 @@ export default function (wikipediaResponse) {
       case 'OCLC number':
         formatValue({ field: 'oclcNumber', value });
         break;
+      case 'Based in':
       case 'Headquarters':
         formatValue({ field: 'headquarters', value, arrayLimit: 1 });
         break;
@@ -70,6 +73,9 @@ export default function (wikipediaResponse) {
       case 'Launched':
       case 'Founded':
         formatValue({ field: 'founded', value });
+        break;
+      case 'Categories':
+        formatValue({ field: 'categories', value });
         break;
       case 'Format':
       case 'Type':
