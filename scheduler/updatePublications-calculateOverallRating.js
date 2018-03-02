@@ -37,10 +37,9 @@ getSpace
   .then((response) => {
 
     const calculateComplaintsAvg = response.items
-      .filter(data => data.fields.overallRating['en-US'].length > 0)
+      .filter(data => data.fields.pressComplaints['en-US'].data !== undefined || data.fields.independentPressStandardsOrganisation['en-US'].data !== undefined)
       .map(data => {
-        const overallRating = data.fields.overallRating['en-US'];
-        return overallRating[overallRating.length - 1].ratings.complaints;
+        return complaintsCalculation(data.fields.pressComplaints['en-US'], data.fields.independentPressStandardsOrganisation['en-US'], 35);
       })
       .filter(data => data !== null);
 
@@ -81,19 +80,31 @@ getSpace
 
           const total = ((toBeCalculated.reduce(getSum)) / toBeCalculated.length) + alignment;
 
-          entry.fields.overallRating['en-US'].push({
+          entry.fields.overallRating['en-US'].unshift({
             timestamp: Date.now(),
             ratings: {
-              alexa,
-              alignment,
-              articles,
-              complaints,
-              education,
-              equality,
-              sfw,
               total
             }
           });
+
+          const overallRating = entry.fields.overallRating['en-US']
+            .filter(rating => rating.ratings.total !== null)
+            .map(rating => {
+              const { timestamp, ratings } = rating;
+              const { total } = ratings;
+              return {
+                timestamp,
+                ratings: {
+                  total
+                }
+              }
+            })
+            .sort((a, b) => {
+              return new Date(b.timestamp) - new Date(a.timestamp)
+            })
+            .splice(0, 40);
+
+          entry.fields.overallRating['en-US'] = overallRating;
 
           return entry.update();
         })
