@@ -5,6 +5,7 @@ import getPrices from "../api/getPrices";
 import getTwitter from "../api/getTwitter";
 import getWikipediaGetGoogleGeocode from "../combiners/getWikipediaGetGoogleGeocode";
 import getIpsoList from "../crawlers/getIpsoList";
+import currencies from "../fixtures/currencies";
 import { cfSpaceId, cfCmaToken } from "../config";
 
 const client = contentful.createClient({
@@ -131,10 +132,11 @@ export default function (name, disambiguation, sundayEdition, website, newsApiId
 
     const createPrices = (fields) => {
 
-      const { name, sundayEdition } = fields;
+      const { countryGeocode, name, sundayEdition } = fields;
 
       const priceName = name['en-US'];
       const priceSundayEdition = sundayEdition['en-US'];
+      const currency = currencies[countryGeocode['en-US']];
 
       getPrices(priceName)
         .then(pricesResponse => {
@@ -163,7 +165,8 @@ export default function (name, disambiguation, sundayEdition, website, newsApiId
                 'en-US': [
                   {
                     timestamp: Date.now(),
-                    data: pricesSelected
+                    data: pricesSelected,
+                    currency
                   }
                 ]
               }
