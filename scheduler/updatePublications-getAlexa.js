@@ -34,6 +34,7 @@ getSpace
               });
 
               const siteRankings = entry.fields.siteRankings['en-US']
+                .filter(ranking => Object.keys(ranking.data).length !== 0)
                 .sort((a, b) => {
                   return new Date(b.timestamp) - new Date(a.timestamp)
                 })
