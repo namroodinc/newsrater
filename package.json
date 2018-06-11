@@ -13,6 +13,7 @@
     "getAlexa": "babel-node scheduler/updatePublications-getAlexa.js",
     "getGoogleNews": "babel-node scheduler/updatePublications-getGoogleNews.js",
     "getKeywords": "babel-node scheduler/updatePublications-getKeywordsFromNews.js",
+    "getKeywordsToArticles": "babel-node scheduler/updatePublications-getKeywordsToArticles.js",
     "getIPSO": "babel-node scheduler/updatePublications-getIndependentPressStandardsOrganisation.js",
     "getNews": "npm-run-all --sequential getGoogleNews getNewsApi cleanNews",
     "getNewsApi": "babel-node scheduler/updatePublications-getNewsApi.js",

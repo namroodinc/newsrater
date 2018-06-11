@@ -63,7 +63,7 @@ getSpace
             .then((entry) => console.log(`** ${entry.fields.name['en-US']} ${typeOfUpdate} updated & published.`))
             .catch(console.error);
         });
-        
+
     });
   })
   .catch(console.error);

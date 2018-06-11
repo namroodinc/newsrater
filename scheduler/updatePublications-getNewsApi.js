@@ -46,7 +46,7 @@ getSpace
               .then((space) => space.getEntry(data.sys.id))
               .then((entry) => {
                 results.articles.map(article => {
-                  const { publishedAt, title, url, urlToImage } = article;
+                  const { publishedAt, title, url } = article;
                   const articleFindIndex = entry.fields.articles['en-US'].findIndex(article => article.title === title);
                   if (articleFindIndex < 0) {
                     const allCaps = title.match(/\b([A-Z]{2,})\b/g);
@@ -56,7 +56,6 @@ getSpace
                       publishedAt,
                       title,
                       url,
-                      urlToImage,
                       sentimentScore: {
                         title: sentimentResponse(title, allCapsArray)
                       }

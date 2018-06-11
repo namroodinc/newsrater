@@ -1,6 +1,7 @@
 import request from "superagent";
 
 export default function (api) {
+  console.log(api);
   return new Promise((resolve, reject) => {
     request
       .get(api)
