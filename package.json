@@ -17,6 +17,7 @@
     "getIPSO": "babel-node scheduler/updatePublications-getIndependentPressStandardsOrganisation.js",
     "getNews": "npm-run-all --sequential getGoogleNews getNewsApi cleanNews",
     "getNewsApi": "babel-node scheduler/updatePublications-getNewsApi.js",
+    "mLabsGetNewsApi": "babel-node scheduler/mLabs-getNewsApi.js",
     "getPCC": "babel-node scheduler/updatePublications-getPressComplaintsCommission.js",
     "getPressComplaints": "npm-run-all --sequential getPCC getIPSO",
     "getPrices": "babel-node scheduler/updatePublications-getPrices.js",
