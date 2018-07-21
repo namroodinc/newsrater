@@ -21,6 +21,7 @@
     "getPCC": "babel-node scheduler/updatePublications-getPressComplaintsCommission.js",
     "getPressComplaints": "npm-run-all --sequential getPCC getIPSO",
     "getPrices": "babel-node scheduler/updatePublications-getPrices.js",
+    "getPublications": "babel-node scheduler/updatePublications-getPublications.js",
     "getUkCirculation": "babel-node scheduler/updatePublications-getUkCirculation.js",
     "getWikipedia": "babel-node scheduler/updatePublications-getWikipedia.js",
     "updatePrices": "babel-node scheduler/updatePublications-getPrices.js",
